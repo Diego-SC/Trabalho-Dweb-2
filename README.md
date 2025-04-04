@@ -5,3 +5,6 @@ Um projeto para a matéria de Desenvolvimento Web 2
 - [ ] Home
 - [ ] Cadastro
 - [ ] Login
+- [ ] Perfil
+- [ ] Lista de filmes assistidos\(com seus filtros)
+- [ ] Lista de filmes para serem assistidos
