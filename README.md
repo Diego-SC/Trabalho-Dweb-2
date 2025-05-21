@@ -1,14 +1,27 @@
 # Trabalho Dweb 2
 Um projeto para a matéria de Desenvolvimento Web 2
 
-> Front-end
-- [ ] Home
-- [ ] Cadastro
-- [ ] Login
-- [ ] Perfil
-- [ ] Lista de filmes assistidos\(com seus filtros)
-- [ ] Lista de filmes para serem assistidos
+Cabeçalho
+- Busca
+- Atalhos (escolher quais)
 
-> Back-end
-- [ ] Gravação dos dados do Cadastro
-- [ ] Verificação no Login
+Profile
+- Total de filmes
+- Filmes esse ano
+- Filmes favoritos
+- Filmes recentes
+- *Whatlist
+- Rating (baixa prioridade)
+- *Recent Reviews
+- *Filmes vistos (Página "Films")
+- *Reviews (Página "Reviews")
+- *Likes (Página "Likes")
+
+Home (Baixa Prioridade)
+- Filmes com maior avaliação
+- Filmes recentes
+- Filmes de cada categoria
+- Reviews
+
+Editar Perfil/Settings
+- Edições de dados
