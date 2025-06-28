@@ -1,6 +1,11 @@
 # Trabalho Dweb 2
 Um projeto para a matéria de Desenvolvimento Web 2
 
+Paleta
+- Amarelo: #F0C808
+- Vermelho: #DD1C1A
+- Azul: #086788
+
 Cabeçalho
 - Busca
 - Atalhos (escolher quais)
