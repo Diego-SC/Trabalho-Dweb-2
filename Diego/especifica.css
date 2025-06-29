@@ -1,0 +1,51 @@
+/**/
+.reviews-section-container {
+    background-color: #1a202c; /* Fundo da seção */
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    padding-right: 25%;
+    padding-left: 20%;
+}
+
+/* Estilo do cabeçalho da seção (Título + MORE) */
+.secao-cabecalho {
+    display: flex;
+    /*justify-content: space-around; /* Empurra o título e o link para os lados */
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+.secao-titulo {
+    font-size: 14px;
+    color: #ccc;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.title-divider {
+    border: none;
+    border-top: 1px solid #3c424a; /* Linha de separação */
+    /*margin-bottom: 200px;*/
+}
+
+/* Estilo do card de review */
+.review-card {
+    background-color: #414c61;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.review-card-comentario {
+    background-color: #414c61;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Texto do review */
+.review-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #f1f1f1;
+    line-height: 1.4;
+}
