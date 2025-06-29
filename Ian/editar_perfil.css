@@ -1,0 +1,403 @@
+/* Variáveis de cor (se não estiverem em style.css ou padrao.css, inclua aqui) */
+:root {
+    --dark-bg: #14181c;
+    --darker-bg: #1c2128;
+    --text-color: #e0e6eb;
+    --light-text-color: #8c98a3;
+    --accent-green: #4CAF50;
+    --accent-orange: #ff8500;
+    --accent-blue: #00bcd4;
+    --border-color: #2e353e;
+    --card-bg: #222930;
+    --hover-bg: #2a3138;
+    --star-color: #fdd835;
+    --input-bg: #2a3138; /* Cor de fundo para inputs */
+    --input-border: #3d454e; /* Borda para inputs */
+}
+
+/* Container principal da página de edição */
+.edit-profile-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: var(--darker-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
+}
+
+.edit-profile-container h2 {
+    font-size: 28px;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    font-weight: 600;
+}
+
+.profile-settings-form {
+    display: flex;
+    flex-wrap: wrap; /* Permite que as seções se ajustem */
+    gap: 40px 60px; /* Espaçamento entre as seções */
+}
+
+.profile-info-section,
+.favorite-films-edit-section,
+.profile-avatar-section {
+    flex: 1 1 calc(50% - 30px); /* Duas colunas em telas maiores, ou uma coluna em telas menores */
+    min-width: 300px; /* Garante que a coluna não fique muito estreita */
+}
+
+.profile-info-section h3,
+.favorite-films-edit-section h3,
+.profile-avatar-section h3 {
+    font-size: 22px;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative; /* Para posicionar o ícone de editar */
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: var(--light-text-color);
+    margin-bottom: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    color: var(--text-color);
+    font-size: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+    border-color: var(--accent-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 80px;
+}
+
+/* Input com ícone */
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon input {
+    padding-right: 40px; /* Espaço para o ícone */
+}
+
+.input-with-icon .edit-icon {
+    position: absolute;
+    right: 15px;
+    color: var(--light-text-color);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.input-with-icon .edit-icon:hover {
+    color: var(--text-color);
+}
+
+/* Campo de login 'readonly' */
+input[readonly] {
+    background-color: #222930; /* Um pouco mais escuro para indicar que é readonly */
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Layout de duas colunas para Given Name e Alterar Senha */
+.form-group.two-columns {
+    display: grid;
+    grid-template-columns: 1fr auto; /* Ocupa a largura, botão se autoajusta */
+    align-items: end;
+    gap: 15px; /* Espaçamento entre os campos */
+}
+
+.form-group.two-columns label {
+    grid-column: 1 / -1; /* Ocupa toda a largura acima dos inputs */
+}
+
+.form-group.two-columns input {
+    grid-column: 1 / 2;
+}
+
+.password-reset {
+    grid-column: 2 / 3;
+    padding-bottom: 2px; /* Alinhar com a base do input */
+}
+
+.password-reset a {
+    color: var(--light-text-color);
+    font-size: 14px;
+    text-decoration: underline;
+    white-space: nowrap; /* Não quebra linha */
+}
+
+.password-reset a:hover {
+    color: var(--text-color);
+}
+
+
+/* Seção de Filmes Favoritos */
+.favorite-films-edit-section .section-description {
+    font-size: 14px;
+    color: var(--light-text-color);
+    margin-bottom: 20px;
+}
+
+.favorite-films-selection {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 colunas para filmes */
+    gap: 15px;
+}
+
+.film-selection-card {
+    position: relative;
+    background-color: var(--card-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    padding-bottom: 150%; /* Proporção de pôster 2:3 */
+    height: 0; /* Para usar padding-bottom como altura */
+    cursor: grab; /* Indica que pode ser arrastado */
+}
+
+.film-selection-card img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.film-selection-card .remove-film-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    color: var(--light-text-color);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    opacity: 0; /* Esconde por padrão */
+    transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    z-index: 10;
+}
+
+.film-selection-card:hover .remove-film-btn {
+    opacity: 1; /* Mostra no hover */
+}
+
+.film-selection-card .remove-film-btn:hover {
+    background-color: #dc3545; /* Cor de erro ao remover */
+    color: #fff;
+}
+
+.film-selection-card.add-film-slot {
+    background-color: var(--input-bg);
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--border-color);
+}
+
+.film-selection-card.add-film-slot .add-film-btn {
+    color: var(--light-text-color);
+    font-size: 30px;
+    transition: color 0.2s ease;
+}
+
+.film-selection-card.add-film-slot .add-film-btn:hover {
+    color: var(--accent-green);
+}
+
+/* Seção de Foto de Perfil */
+.profile-avatar-section .avatar-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 colunas para avatares */
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.avatar-option {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* Proporção 1:1 */
+    height: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.avatar-option img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 50%;
+}
+
+.avatar-option input[type="radio"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Esconde o radio button */
+    cursor: pointer;
+    z-index: 5;
+}
+
+.avatar-option.selected {
+    border-color: var(--accent-green); /* Borda verde para o avatar selecionado */
+}
+
+.avatar-option:hover:not(.selected) {
+    border-color: var(--light-text-color);
+}
+
+.profile-avatar-section .small-text {
+    font-size: 13px;
+    color: var(--light-text-color);
+    margin-top: 10px;
+}
+
+.profile-avatar-section .upload-avatar-button {
+    background-color: var(--card-bg); /* Ou uma cor de botão mais neutra */
+    color: var(--text-color);
+    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 20px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.profile-avatar-section .upload-avatar-button:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--text-color);
+}
+
+
+/* Botão Salvar Alterações */
+.save-changes-button {
+    background-color: var(--accent-green);
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%; /* Ocupa a largura total */
+    margin-top: 40px;
+    transition: background-color 0.2s ease;
+}
+
+.save-changes-button:hover {
+    background-color: #388e3c; /* Um verde um pouco mais escuro */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .edit-profile-container {
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .profile-settings-form {
+        flex-direction: column; /* Pilha as seções em telas menores */
+        gap: 30px;
+    }
+
+    .profile-info-section,
+    .favorite-films-edit-section,
+    .profile-avatar-section {
+        flex: 1 1 100%; /* Ocupa a largura total */
+        min-width: unset; /* Remove largura mínima */
+    }
+
+    .form-group.two-columns {
+        grid-template-columns: 1fr; /* Volta para uma coluna */
+        gap: 10px;
+    }
+
+    .form-group.two-columns input {
+        grid-column: 1 / -1;
+    }
+
+    .password-reset {
+        grid-column: 1 / -1; /* Ocupa toda a largura */
+        text-align: left;
+    }
+
+    .favorite-films-selection {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Mais flexível em telas menores */
+        gap: 10px;
+    }
+
+    .profile-avatar-section .avatar-selection-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); /* Reduz o tamanho dos avatares */
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .edit-profile-container h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .profile-info-section h3,
+    .favorite-films-edit-section h3,
+    .profile-avatar-section h3 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    .save-changes-button {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+}

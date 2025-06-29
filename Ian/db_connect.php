@@ -1,15 +1,23 @@
 <?php
-    $servername="localhost";
-    $username="root";
-    $password="";
-    $db_name="novobd";
-    
-    $connect = mysqli_connect($servername, $username, $password, $db_name);
-    
+    require_once 'util.php';
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+
+    $host = 'localhost';
+    $user = 'root';
+    $password = 'Ian84939333'; // your MySQL password
+    $database = 'TelaCritica';
+
+    // Create connection
+    $conexao = mysqli_connect($host, $user, $password, $database);
+
+    // Check connection
     if (mysqli_connect_error()){
-        echo "Falha na conexão:". mysqli_connect_error();
+        debug_to_console(" Falha na conexão com o Banco de Dados: " . mysqli_connect_error());
+        exit;
     }
-    // else {
-    //     echo "Conectado com sucesso<br>";
-    // }
+    debug_to_console("Banco de Dados Connectado com sucesso!");
+    $id_usuario = 'i_reis';
+    $nome_usuario = getUsuario($conexao, $id_usuario);
+    $nome_usuario = $nome_usuario['nome'];
 ?>

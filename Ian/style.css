@@ -1,0 +1,911 @@
+/* Reset Básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', 'Roboto', sans-serif;
+    background-color: #14181c;
+    color: #e0e6eb;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased; /* Melhorar renderização da fonte */
+    font-size: 15px;
+}
+
+a {
+    color: #8c98a3;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #e0e6eb;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0;
+}
+
+/* Layout Principal do Conteúdo */
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr; /* Padrão para mobile */
+    gap: 30px;
+}
+
+@media (min-width: 992px) {
+    .container {
+        grid-template-columns: 7fr 3fr; /* Main content e sidebar na desktop */
+        gap: 40px;
+    }
+}
+
+.main-content {
+    grid-column: 1 / -1; /* Ocupa toda a largura em mobile */
+}
+
+@media (min-width: 992px) {
+    .main-content {
+        grid-column: 1 / 2;
+    }
+}
+
+.right-sidebar {
+    grid-column: 1 / -1; /* Ocupa toda a largura em mobile */
+}
+
+@media (min-width: 992px) {
+    .right-sidebar {
+        grid-column: 2 / 3;
+    }
+}
+
+
+/* Perfil */
+.profile-card {
+    background-color: #1c2128;
+    border-radius: 8px;
+    padding: 25px 30px;
+    margin-bottom: 25px;
+}
+
+.profile-header-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent-green);
+    flex-shrink: 0;
+}
+
+.profile-info {
+    flex-grow: 1;
+}
+
+.profile-info h1 {
+    font-size: 38px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.1;
+    color: #e0e6eb;
+}
+
+.edit-profile-button {
+    background-color: var(--border-color);
+    color: #8c98a3;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 5px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.edit-profile-button:hover {
+    background-color: #444c57;
+    color: #e0e6eb;
+}
+
+.profile-bio {
+    font-size: 15px;
+    color: #8c98a3;
+    margin: 10px 0;
+}
+
+.profile-location {
+    font-size: 13px;
+    color: #8c98a3;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-location i {
+    color: var(--accent-green);
+}
+
+.profile-handle {
+    color: #8c98a3;
+}
+
+.profile-handle:hover {
+    color: #e0e6eb;
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+    flex-wrap: wrap;
+    gap: 15px 0;
+}
+
+.stat-item {
+    text-align: center;
+    flex: 1 1 23%; /* Permite 4 colunas em telas maiores, quebra em telas menores */
+    min-width: 80px; /* Garante que não fique muito pequeno */
+}
+
+.stat-number {
+    display: block;
+    font-size: 32px;
+    font-weight: 600;
+    color: #e0e6eb;
+    line-height: 1;
+}
+
+.stat-label {
+    display: block;
+    font-size: 14px;
+    color: #8c98a3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Navegação do Perfil */
+.profile-nav {
+    background-color: #1c2128;
+    border-radius: 8px;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Para responsividade */
+    gap: 10px;
+}
+
+.profile-nav ul {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap; /* Para responsividade */
+}
+
+.profile-nav ul li a {
+    position: relative;
+    color: #8c98a3;
+    font-weight: 500;
+    padding: 5px 0;
+}
+
+.profile-nav ul li a:hover {
+    color: #e0e6eb;
+}
+
+.profile-nav ul li a.active {
+    color: #e0e6eb;
+}
+
+.profile-nav ul li a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent-green);
+}
+
+.search-profile {
+    color: #8c98a3;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.search-profile:hover {
+    color: #e0e6eb;
+}
+
+/* Seções de Filmes (Favoritos, Recente) */
+section {
+    margin-bottom: 35px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #e0e6eb;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h2 .all-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: #8c98a3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Ajustável para cards de filme */
+    gap: 15px;
+}
+
+.movie-card {
+    background-color: #222930;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.movie-card img {
+    width: 100%;
+    height: 200px; /* Altura fixa para os pôsteres, ajuste conforme a imagem */
+    object-fit: cover;
+    display: block;
+}
+
+.film-rating {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    font-size: 16px;
+    text-shadow: 0 0 5px rgba(0,0,0,0.7); /* Sombra para visibilidade */
+}
+
+/* Estrelas */
+.film-rating .fas, .review-watched-info .fas {
+    color: #F0C808;
+}
+.film-rating i {
+    margin-right: -2px; /* Ajusta o espaçamento das estrelas */
+}
+
+/* Seção de Promoção "Need an Upgrade?" */
+.upgrade-promo {
+    background-color: var(--pro-promo-bg);
+    border-radius: 8px;
+    padding: 25px;
+    text-align: center;
+    color: var(--pro-promo-text);
+    margin-bottom: 35px;
+    /* Imagem de fundo se for usada */
+    /* background-image: url('path/to/your/ad-background.jpg'); */
+    /* background-size: cover; */
+    /* background-position: center; */
+    /* background-blend-mode: overlay; */
+}
+
+.upgrade-promo h3 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: white; /* Ou um tom claro */
+}
+
+.upgrade-promo .promo-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.1); /* Uma pequena borda discreta */
+}
+
+.upgrade-promo p {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+    color: var(--pro-promo-text);
+}
+
+.get-pro-button {
+    background-color: var(--pro-button-bg);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    display: inline-flex; /* Para alinhar ícone */
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.get-pro-button:hover {
+    background-color: #e68a00;
+    transform: translateY(-2px);
+}
+
+/* Seção Watchlist */
+.watchlist-section h2 .watchlist-count {
+    color: #8c98a3;
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.watchlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Mini pôsteres */
+    gap: 10px;
+}
+
+.watchlist-grid img {
+    width: 100%;
+    height: 120px; /* Altura fixa para mini pôsteres */
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+}
+
+.watchlist-grid img:hover {
+    transform: scale(1.05);
+}
+
+/* Seção Diário */
+.diary-section h2 .diary-count {
+    color: #8c98a3;
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.diary-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.diary-entry {
+    background-color: #222930;
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    transition: background-color 0.2s ease;
+}
+
+.diary-entry:hover {
+    background-color: var(--hover-bg);
+}
+
+.entry-date {
+    text-align: center;
+    flex-shrink: 0; /* Impede que a data encolha */
+    line-height: 1.1;
+    color: #8c98a3;
+}
+
+.entry-date .month {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.entry-date .day {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: #e0e6eb;
+}
+
+.entry-details {
+    flex-grow: 1;
+    position: relative;
+}
+
+.entry-details .movie-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e0e6eb;
+    margin-bottom: 5px;
+}
+
+.diary-movie-poster {
+    width: 60px; /* Ajuste o tamanho do pôster na entrada do diário */
+    height: 90px;
+    object-fit: cover;
+    border-radius: 4px;
+    float: right; /* Para flutuar ao lado do texto */
+    margin-left: 15px;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.entry-rating {
+    color: #F0C808;
+    font-size: 14px;
+    display: block; /* Garante que as estrelas fiquem abaixo do título */
+    clear: right; /* Limpa o float do pôster */
+}
+
+.entry-rating i {
+    margin-right: -1px;
+}
+
+.recent-reviews-section {
+    margin-bottom: 35px;
+}
+
+.recent-reviews-section h2.section-title {
+    /* Mantém o estilo de H2 já definido */
+    border-bottom: 1px solid var(--border-color); /* Linha divisória */
+    padding-bottom: 12px;
+}
+
+.recent-reviews-section h2 .more-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: #8c98a3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.review-entry {
+    background-color: #1c2128;
+    border-radius: 8px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: auto 1fr; /* First column auto-sized, second takes remaining space */
+    gap: 20px;
+    margin-bottom: 24px;
+    align-items: flex-start;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Ensure first direct child goes in first column */
+.review-entry > *:first-child {
+    grid-column: 1;
+}
+
+/* All other direct children go in second column */
+.review-entry > *:not(:first-child) {
+    grid-column: 2;
+}
+
+.review-entry:last-child {
+    margin-bottom: 0; /* Remove margem da última entrada */
+}
+
+.review-entry:hover {
+    background-color: var(--hover-bg); /* Cor de fundo ao passar o mouse */
+    border-color: #4a545e; /* Borda um pouco mais clara ao passar o mouse */
+}
+
+.review-movie-poster {
+    width: 90px; /* Largura do pôster na revisão */
+    height: 135px; /* Altura do pôster (proporção de pôster de filme) */
+    object-fit: cover;
+    border-radius: 5px;
+    flex-shrink: 0; /* Impede que o pôster encolha */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.review-content {
+    flex-grow: 1;
+}
+
+.review-movie-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #e0e6eb;
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.movie-year {
+    font-size: 14px;
+    font-weight: 300;
+    color: #8c98a3;
+    margin-left: 5px;
+}
+
+.review-watched-info {
+    font-size: 14px;
+    color: #8c98a3;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.review-watched-info i.fas {
+    font-size: 14px; /* Tamanho das estrelas de classificação */
+    margin-right: -2px; /* Ajusta espaçamento entre estrelas */
+}
+
+.review-text {
+    font-size: 16px;
+    color: #e0e6eb;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/* Responsividade para Revisões */
+@media (max-width: 768px) {
+    .review-entry {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .review-movie-poster {
+        margin-bottom: 10px;
+    }
+
+    .review-movie-title {
+        font-size: 18px;
+    }
+
+    .movie-year {
+        font-size: 12px;
+    }
+
+    .review-watched-info {
+        justify-content: center;
+    }
+
+    .review-text {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .review-movie-poster {
+        width: 80px;
+        height: 120px;
+    }
+
+    .review-movie-title {
+        font-size: 16px;
+    }
+
+    .movie-year {
+        font-size: 13px;
+    }
+
+    .review-text {
+        font-size: 14px;
+    }
+}
+
+/* Responsividade Genérica */
+@media (max-width: 768px) {
+    .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 20px;
+    }
+
+    .main-nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+    .container {
+        padding: 0 15px;
+        margin-top: 20px;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-header-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .profile-info {
+        text-align: center;
+    }
+
+    .profile-info h1 {
+        font-size: 32px;
+    }
+
+    .profile-stats {
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .stat-item {
+        flex: 1 1 45%; /* 2 colunas em mobile */
+        min-width: unset;
+    }
+
+    .stat-number {
+        font-size: 26px;
+    }
+
+    .profile-nav {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        gap: 15px;
+    }
+
+    .profile-nav ul {
+        justify-content: center;
+        width: 100%;
+        gap: 15px 10px;
+    }
+
+    .search-profile {
+        margin-top: 10px;
+    }
+
+    .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+    }
+
+    .movie-card img {
+        height: 150px;
+    }
+
+    .watchlist-grid {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 8px;
+    }
+
+    .watchlist-grid img {
+        height: 90px;
+    }
+
+    .diary-entry {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .diary-movie-poster {
+        float: none;
+        margin: 10px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-header {
+        padding: 10px 15px;
+    }
+
+    .main-header .logo {
+        font-size: 20px;
+    }
+
+    .main-nav ul {
+        gap: 10px;
+    }
+
+    .header-actions {
+        gap: 10px;
+    }
+
+    .profile-header-section {
+        padding: 0;
+    }
+
+    .profile-avatar {
+        width: 90px;
+        height: 90px;
+    }
+
+    .profile-info h1 {
+        font-size: 28px;
+    }
+
+    .stat-item {
+        flex: 1 1 48%; /* Garante que caiba duas colunas */
+    }
+
+    .stat-number {
+        font-size: 22px;
+    }
+
+    .movie-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    }
+
+    .movie-card img {
+        height: 130px;
+    }
+}
+
+/* Grade de Filmes Assistidos */
+.watched-film-grid {
+    display: grid;
+    /* Ajuste o número de colunas e o tamanho mínimo dos pôsteres */
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); /* Min 130px, flexível */
+    gap: 15px; /* Espaçamento entre os cards */
+}
+
+.watched-movie-card {
+    position: relative;
+    width: 100%;
+    padding-bottom: 150%; /* Proporção 2:3 para pôsteres */
+    background-color: #222930;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.watched-movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.watched-movie-card img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.watched-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 8px;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.watched-movie-card:hover .watched-card-overlay {
+    opacity: 1;
+}
+
+.watched-card-stats {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    pointer-events: auto;
+}
+
+.watched-card-rating {
+    color: #F0C808;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.watched-card-rating i {
+    margin-right: -2px;
+}
+
+.watched-card-actions {
+    color: #8c98a3;
+    font-size: 14px;
+    display: flex;
+    gap: 8px;
+}
+
+.watched-card-actions i {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.watched-card-actions i.fa-check {
+    color: var(--accent-green);
+}
+
+.watched-card-actions i.far.fa-heart:hover {
+    color: #ff5252;
+}
+
+
+/* Responsividade para a página Watched */
+@media (max-width: 992px) {
+    .main-watched-container { /* Este seletor não é mais usado para o grid principal */
+        padding: 0 15px;
+    }
+
+    .watched-film-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 12px;
+    }
+
+    .watched-movie-card {
+        padding-bottom: 150%;
+    }
+}
+
+@media (max-width: 768px) {
+    .watched-film-grid {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 8px;
+    }
+
+    .watched-movie-card {
+        padding-bottom: 150%;
+    }
+
+    .watched-card-rating {
+        font-size: 12px;
+    }
+
+    .watched-card-actions {
+        font-size: 12px;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-watched-container { /* Este seletor não é mais usado para o grid principal */
+        padding: 0 10px;
+    }
+    .watched-film-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+}

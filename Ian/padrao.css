@@ -1,0 +1,16 @@
+/* Variáveis para cores */
+:root {
+    --dark-bg: #14181c; /* Fundo principal */
+    --darker-bg: #1c2128; /* Fundo de elementos como header/cards */
+    --text-color: #e0e6eb; /* Cor do texto principal */
+    --light-text-color: #8c98a3; /* Texto secundário/inativo */
+    --accent-green: #DD1C1A; /* Verde do Letterboxd */
+    --accent-orange: #ff8500; /* Laranja da logo */
+    --accent-blue: #086788; /* Azul da logo */
+    --border-color: #2e353e; /* Cor das bordas e divisores */
+    --card-bg: #222930; /* Fundo dos cards de filme/diário */
+    --hover-bg: #2a3138; /* Fundo em hover */
+    --pro-promo-bg: #321d00; /* Fundo específico da promoção PRO */
+    --pro-promo-text: #ffe0b2; /* Cor do texto da promoção PRO */
+    --pro-button-bg: #ff9900; /* Cor do botão PRO */
+}
