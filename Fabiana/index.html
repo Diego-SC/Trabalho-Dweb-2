@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Cadastro</title>
+        <link rel="stylesheet" href="css/style.css"/>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Join Letterboxd</h1>
+            <form action="#" method="POST">
+                <div>
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" required />
+                </div>
+                <div>
+                    <label for="nome">Username</label>
+                    <input type="text" id="nome" name="nome" required />
+                </div>
+                <div>
+                    <label for="senha">Password</label>
+                    <input type="password" id="senha" name="senha" required />
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="idade" name="idade" required />
+                    <label for="idade">I'm at least 16 years old and accept the Terms of Use</label>
+                </div>
+                <div class="checkbox-group">      
+                    <input type="checkbox" id="politica" name="politica" required />
+                    <label for="politica">I accept the Privacy Policy and consent to the processing of my personal information in accordance with it</label>
+                </div>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </div>
+    </body>
+</html>
