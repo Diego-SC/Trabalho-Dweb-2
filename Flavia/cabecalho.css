@@ -1,0 +1,207 @@
+.tudo{
+    background-color: #292c2d;
+}
+
+.main-header{
+    background-color: #1c2128;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #2e353e;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.main-header .logo{
+    font-size: 24px;
+    font-weight: 700;
+    color: #e0e6eb;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.main-nav ul{
+    display: flex;
+    gap: 25px;
+}
+
+.main-nav ul li a{
+    color: #8c98a3;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.main-nav ul li a:hover{
+    color: #e0e6eb;
+}
+
+.main-nav ul li a i{
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+.header-actions{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-actions .icon-button{
+    color: #8c98a3;
+    font-size: 18px;
+}
+
+.header-actions .icon-button:hover{
+    color: #e0e6eb;
+}
+
+.header-actions .log-button{
+    background-color: #F0C808;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.header-actions .log-button:hover{
+    background-color: #3e8e41;
+}
+
+.filmes-populares{
+    background-color: #292c2d;
+    color: white;
+}
+
+.grade-filmes{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.frase{
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #778395;
+    margin-left: 350px;
+    margin-bottom: 5px;
+    margin: 50px 40px 1px 350px;
+}
+
+.linha-frase{
+    border: none;
+    height: 1px;
+    background-color: #3b3f45;
+    margin: 50px 40px 20px 40px;
+}
+
+.filme{
+    width: 180px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.filme img{
+    width: 100%;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+.filme img:hover{
+    transform: scale(1.05);
+}
+
+.filme p{
+    margin-top: 10px;
+    font-size: 14px;
+    color: #e0e6eb;
+}
+
+.avaliacao i{
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.fundo-tela-2{
+    background-color: #1c2128;
+}
+
+.wicked-info{
+    padding: 30px;
+    border-radius: 12px;
+    color: white;
+    max-width: 600px;
+    text-align: center;
+    backdrop-filter: blur(25px);
+}
+
+.poster{
+    width: 50%;
+    height: 20%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.wicked{
+    font-size: 50px;
+}
+
+.wicked-fundo{
+    background: url("imagens/fundo.jpg") no-repeat center center;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 40px;
+}
+
+.wicked-info{
+    background-color: rgba(27, 20, 25, 0.8); /* Fundo escuro com transparência */
+    padding: 30px;
+    border-radius: 12px;
+    color: rgb(255, 255, 255);
+    max-width: 900px;
+    width: 100%;
+    backdrop-filter: blur(1px);
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.info{
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.poster{
+    width: 250px;
+    border-radius: 10px;
+}
+
+.textos{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.wicked{
+    font-size: 40px;
+    margin: 0;
+}
+
+.descricao{
+    margin-top: 15px;
+    font-size: 25px;
+    color: #cccccc;
+}
