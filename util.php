@@ -152,6 +152,9 @@ function getFilme($conexao, string $id_filme): array {
 }
 
 function getFilmesPopulares(): array {
+    $movieIds = [];
+    $qtd = 6;
+    
     $curl = curl_init();
     
     curl_setopt_array($curl, [
@@ -168,30 +171,31 @@ function getFilmesPopulares(): array {
         ],
     ]);
     
-    $response = curl_exec($curl);
+    $res = curl_exec($curl);
     $err = curl_error($curl);
-    
     curl_close($curl);
     
     if ($err) {
         echo "cURL Error #:" . $err;
-    } else {
-        $filmes_populares = json_decode($response, true);
-        
-        // Check if decoding was successful
-        if (json_last_error() === JSON_ERROR_NONE) {
-            debug_to_console("JSON decodificado com sucesso.");
-        } else {
-            echo "Error decoding JSON: " . json_last_error_msg();
-            return array();
+        return [];
+    }
+    
+    $data = json_decode($res, true);
+    if (json_last_error() !== JSON_ERROR_NONE || !isset($data['results'])) {
+        echo "Error decoding JSON or invalid response format";
+        return [];
+    }
+    
+    foreach ($data['results'] as $movie) {
+        if (isset($movie['id'])) {
+            $movieIds[] = $movie['id'];
+            if (count($movieIds) >= $qtd) {
+                break;
+            }
         }
     }
-    for ($i=0; $i < 10; $i++) { 
-        $img = "https://image.tmdb.org/t/p/w500" . $filmes_populares['results'][$i]['poster_path'];
-        print_r($filmes_populares['results'][$i]['id'] . "<br> ");
-
-        echo '<img src="' . $img . '"><br>';
-    }
+    
+    return array_slice($movieIds, 0, $qtd);
 }
 
 function getUsuarioTotalFilmes($conexao, string $id_usuario): int {

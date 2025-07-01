@@ -1,7 +1,18 @@
 <?php
-require_once 'db_connect.php';
-require_once 'util.php';
-session_start();
+    require_once 'db_connect.php';
+    require_once 'util.php';
+    session_start();
+
+    if (!isset($_SESSION['logado'])){
+        header('Location: login.php');
+    }
+
+    $id_usuario = $_SESSION['id_usuario'];
+    $sql = "SELECT * FROM Usuario WHERE login = '$id_usuario'";
+    $resultado = mysqli_query($conexao, $sql);
+    $dados = mysqli_fetch_array($resultado);
+    $nome_usuario = getUsuario($conexao, $id_usuario);
+    $nome_usuario = $nome_usuario['nome'];
 ?>
 
 <!DOCTYPE html>
@@ -10,8 +21,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do <?php echo $nome_usuario ?></title>
-    <link rel="stylesheet" href="padrao.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="perfil.css">
     <link rel="stylesheet" href="cabecalho.css">
     <link rel="stylesheet" href="rodape.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">

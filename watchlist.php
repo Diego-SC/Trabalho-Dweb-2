@@ -10,8 +10,8 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Watchlist do <?php echo $nome_usuario ?></title>
-    <link rel="stylesheet" href="padrao.css">
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="perfil.css">
     <link rel="stylesheet" href="cabecalho.css">
     <link rel="stylesheet" href="rodape.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">

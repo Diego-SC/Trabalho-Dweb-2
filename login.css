@@ -1,0 +1,147 @@
+/* Variáveis para cores (pode ser compartilhado com outros arquivos CSS) */
+:root {
+    --dark-bg: #14181c; /* Fundo principal */
+    --darker-bg: #1c2128; /* Fundo do container */
+    --text-color: #e0e6eb; /* Cor do texto principal */
+    --light-text-color: #8c98a3; /* Texto secundário/inativo */
+    --input-bg: #2a3138; /* Fundo dos inputs */
+    --input-border: #3d454e; /* Borda dos inputs */
+    --button-green: #00e067; /* Verde do botão de cadastro */
+    --button-green-hover: #00c75c; /* Verde do botão ao passar o mouse */
+    --border-color: #2e353e; /* Cor das bordas e divisores */
+}
+
+/* Reset Básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', 'Roboto', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa a altura total da viewport */
+    padding: 20px; /* Padding para evitar que o conteúdo encoste nas bordas */
+}
+
+a {
+    color: var(--button-green); /* Cor dos links nos checkboxes */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--button-green-hover);
+}
+
+/* Container principal do formulário */
+.join-container {
+    background-color: var(--darker-bg);
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 450px; /* Largura máxima do formulário */
+    border: 1px solid var(--border-color);
+}
+
+.join-container h2 {
+    font-size: 28px;
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: var(--light-text-color);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input[type="email"],
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    color: var(--text-color);
+    font-size: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input[type="email"]:focus,
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus {
+    border-color: var(--button-green);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 224, 103, 0.2); /* Sombra verde suave */
+}
+
+/* Botão de cadastro */
+.submit-button {
+    background-color: var(--button-green);
+    color: var(--darker-bg); /* Texto mais escuro para contraste */
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: 100%;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border: none; /* Garante que não há borda */
+}
+
+.submit-button:hover {
+    background-color: var(--button-green-hover);
+}
+
+.error-messages {
+    color: red;
+}
+
+/* Responsividade */
+@media (max-width: 500px) {
+    .join-container {
+        padding: 30px 20px;
+        margin: 0 10px; /* Pequena margem nas laterais em telas muito pequenas */
+    }
+
+    .join-container h2 {
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+
+    .form-group input {
+        padding: 10px 12px;
+        font-size: 15px;
+    }
+
+    .checkbox-group {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .submit-button {
+        padding: 12px 20px;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+}

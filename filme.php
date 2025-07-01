@@ -1,5 +1,7 @@
-<?php 
-
+<?php
+require_once 'db_connect.php';
+require_once 'util.php';
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -9,11 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How to Train Your Dragon</title>
     <link rel="stylesheet" href="especifica.css">
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="perfil.css">
     <link rel="stylesheet" href="cabecalho.css">
-    
-
-    <!-- Cabeçalho -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -21,7 +20,7 @@
 </head>
 <body>
     <div class="contem">
-        <?php require_once 'cabeca.php'?>
+        <?php require_once 'cabecalho.php'?>
         <div class="secao-fundo">
             <img src="fundo.jpg" alt="How to Train Your Dragon fundo" class="image-fundo">
             <div class="efeito-image"></div>

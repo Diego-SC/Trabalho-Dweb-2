@@ -17,7 +17,4 @@
         exit;
     }
     debug_to_console("Banco de Dados Connectado com sucesso!");
-    $id_usuario = 'i_reis';
-    $nome_usuario = getUsuario($conexao, $id_usuario);
-    $nome_usuario = $nome_usuario['nome'];
 ?>

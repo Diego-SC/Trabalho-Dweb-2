@@ -35,7 +35,7 @@ $fotos = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Perfil</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="perfil.css">
     <link rel="stylesheet" href="editar_perfil.css">
     <link rel="stylesheet" href="cabecalho.css">
     <link rel="stylesheet" href="rodape.css">
