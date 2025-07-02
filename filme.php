@@ -100,7 +100,7 @@
                         <i class="<?php echo $na_watchlist ? 'fa fa-check' : 'far fa-plus-square'; ?>"></i> <?php echo $na_watchlist ? 'Remover' : 'Watchlist'; ?>
                     </button>
                 </div>
-                <button class="review-log-button"><i class="fas fa-pen"></i> Registrar...</button>
+                <a href="registrar_filme.php?<?php echo $id_filme ?>" class="review-log-button"><i class="fas fa-pen"></i> Registrar...</a>
             </div>
         </div>
 

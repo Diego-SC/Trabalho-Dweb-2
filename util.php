@@ -152,14 +152,14 @@ function getFilme($conexao, string $id_filme): array {
     return mysqli_fetch_array($resultado);
 }
 
-function getFilmesPopulares(): array {
+function getFilmesPopulares($page=1): array {
     $movieIds = [];
     $qtd = 6;
     
     $curl = curl_init();
     
     curl_setopt_array($curl, [
-        CURLOPT_URL => "https://api.themoviedb.org/3/movie/popular?language=pt-BR&region=BR&page=1",
+        CURLOPT_URL => "https://api.themoviedb.org/3/movie/popular?language=pt-BR&region=BR&page=$page",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,

@@ -6,20 +6,18 @@
     $host = 'centerbeam.proxy.rlwy.net';
     $port = 55823;
     $user = 'root';
-    $password = 'BylUqWSCunqMupAzHnXzHhhEJLPKiYmI'; // your MySQL password
+    $password = 'BylUqWSCunqMupAzHnXzHhhEJLPKiYmI';
     $database = 'railway';
 
     // // LOCAL
     // $host = 'centerbeam.proxy.rlwy.net';
-    // $port = 55823;
+    // $port = 3306;
     // $user = 'root';
-    // $password = '12345678'; // your MySQL password
+    // $password = 'Ian84939333'; 
     // $database = 'TelaCritica';
 
-    // Create connection
     $conexao = mysqli_connect($host, $user, $password, $database, $port);
 
-    // Check connection
     if (mysqli_connect_error()){
         debug_to_console(" Falha na conexão com o Banco de Dados: " . mysqli_connect_error());
         exit;
