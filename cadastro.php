@@ -1,63 +1,63 @@
 <?php
-declare(strict_types=1);
-require_once 'db_connect.php'; // Certifique-se de que db_connect.php está configurado para seu banco de dados
-session_start();
+    declare(strict_types=1);
+    require_once 'db_connect.php';
+    session_start();
 
-$erros = array();
+    $erros = array();
 
-if (isset($_POST['btn-cadastrar'])) {
-    $email = mysqli_real_escape_string($conexao, $_POST['email'] ?? '');
-    $nome = mysqli_real_escape_string($conexao, $_POST['nome'] ?? '');
-    $usuario = mysqli_real_escape_string($conexao, $_POST['usuario'] ?? '');
-    $senha = mysqli_real_escape_string($conexao, $_POST['senha'] ?? '');
+    if (isset($_POST['btn-cadastrar'])) {
+        $email = mysqli_real_escape_string($conexao, $_POST['email'] ?? '');
+        $nome = mysqli_real_escape_string($conexao, $_POST['nome'] ?? '');
+        $usuario = mysqli_real_escape_string($conexao, $_POST['usuario'] ?? '');
+        $senha = mysqli_real_escape_string($conexao, $_POST['senha'] ?? '');
 
-    // Validações básicas
-    if (empty($email) || empty($usuario) || empty($senha) || empty($nome)) {
-        $erros[] = "<li>Todos os campos (Email, usuario, senha) são obrigatórios.</li>";
-    }
+        // Validações básicas
+        if (empty($email) || empty($usuario) || empty($senha) || empty($nome)) {
+            $erros[] = "<li>Todos os campos (Email, usuario, senha) são obrigatórios.</li>";
+        }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $erros[] = "<li>O endereço de e-mail fornecido não é válido.</li>";
-    }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $erros[] = "<li>O endereço de e-mail fornecido não é válido.</li>";
+        }
 
-    if (strlen($senha) < 8) { // Exemplo de validação de senha
-        $erros[] = "<li>A senha deve ter pelo menos 8 caracteres.</li>";
-    }
+        if (strlen($senha) < 8) { // Exemplo de validação de senha
+            $erros[] = "<li>A senha deve ter pelo menos 8 caracteres.</li>";
+        }
 
-    // Verifica se o usuario ou email já existem
-    if (empty($erros)) {
-        $sql = "SELECT * FROM Usuario WHERE login = '$usuario' OR email = '$email'";
-        $res = mysqli_query($conexao, $sql);
+        // Verifica se o usuario ou email já existem
+        if (empty($erros)) {
+            $sql = "SELECT * FROM Usuario WHERE login = '$usuario' OR email = '$email'";
+            $res = mysqli_query($conexao, $sql);
 
-        if (mysqli_num_rows($res) > 0) {
-            $dados = mysqli_fetch_assoc($res);
-            if ($dados['login'] === $usuario) {
-                $erros[] = "<li>Este nome de usuário já está em uso.</li>";
+            if (mysqli_num_rows($res) > 0) {
+                $dados = mysqli_fetch_assoc($res);
+                if ($dados['login'] === $usuario) {
+                    $erros[] = "<li>Este nome de usuário já está em uso.</li>";
+                }
+                if ($dados['email'] === $email) {
+                    $erros[] = "<li>Este endereço de e-mail já está em uso.</li>";
+                }
             }
-            if ($dados['email'] === $email) {
-                $erros[] = "<li>Este endereço de e-mail já está em uso.</li>";
+        }
+
+        // Se não houver erros, insere o usuário no banco de dados
+        if (empty($erros)) {
+            $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+            $sql_insert = "INSERT INTO Usuario (login, nome, email, senha) VALUES ('$usuario', '$usuario', '$email', '$senha_hash')";
+            // Note: 'nome' está sendo preenchido com o 'usuario' aqui, ajuste conforme sua lógica de negócio.
+
+            if (mysqli_query($conexao, $sql_insert)) {
+                $_SESSION['logado'] = true;
+                $_SESSION['id_usuario'] = $usuario;
+                $_SESSION['nome_usuario'] = $usuario;
+                header('Location: home.php');
+                exit();
+            } else {
+                $erros[] = "<li>Erro ao cadastrar usuário: " . mysqli_error($conexao) . "</li>";
             }
         }
     }
-
-    // Se não houver erros, insere o usuário no banco de dados
-    if (empty($erros)) {
-        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-
-        $sql_insert = "INSERT INTO Usuario (login, nome, email, senha) VALUES ('$usuario', '$usuario', '$email', '$senha_hash')";
-        // Note: 'nome' está sendo preenchido com o 'usuario' aqui, ajuste conforme sua lógica de negócio.
-
-        if (mysqli_query($conexao, $sql_insert)) {
-            $_SESSION['logado'] = true;
-            $_SESSION['id_usuario'] = $usuario;
-            $_SESSION['nome_usuario'] = $usuario;
-            header('Location: home.php');
-            exit();
-        } else {
-            $erros[] = "<li>Erro ao cadastrar usuário: " . mysqli_error($conexao) . "</li>";
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>

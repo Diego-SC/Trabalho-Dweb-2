@@ -1,7 +1,7 @@
 <?php
     require_once 'db_connect.php';
     require_once 'util.php';
-    session_start();
+    require_once 'sessao.php';
 ?>
 
 <!DOCTYPE html>
@@ -29,11 +29,34 @@
 
         <section class="film-section">
             <div class="section-header">
-                <p>FILMES POPULARES</p>
+                <p>FILMES POPULARES ESTA SEMANA</p>
             </div>
 
             <div class="film-grid">
     
+            <?php
+                $filmes_populares = getFilmesPopulares();
+
+                foreach ($filmes_populares as $index => $id_filme) {
+                    $filme = getFilme($conexao, $id_filme);
+                    $poster = $filme['poster'];
+                    $titulo = $filme['titulo'];
+
+                    echo "
+                    <div class='activity-card'>
+                        <a href='filme.php?id=$id_filme' class='activity-card'>
+                            <img src='https://image.tmdb.org/t/p/w500$poster' alt='$titulo Poster'>
+                        </a>
+                    </div>";
+                }
+            ?>
+            </div>
+
+            <div class="section-header">
+                <p>FILMES POPULARES</p>
+            </div>
+
+            <div class="film-grid">
             <?php
                 $filmes_populares = getFilmesPopulares();
 
@@ -51,19 +74,10 @@
                 }
             ?>
             </div>
-
-            <h2>FILMES POPULARES</h2>
-
-            <div class="film-grid">
-                <div class="activity-card">
-                    <img src="https://a.ltrbxd.com/resized/film-poster/1/6/6/0/7/6/166076-good-boy-0-230-0-345-crop.jpg?v=f0b2f5d21a" alt="Good Boy poster">
-                </div>
-            </div>
         </section>
     </main>
 
     <?php require_once 'rodape.php' ?>
 </body>
 </html>
-
 <?php mysqli_close($conexao) ?>

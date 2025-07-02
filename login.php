@@ -20,8 +20,7 @@
 			if (mysqli_num_rows($resultado) > 0) {
 				$usuario = mysqli_fetch_assoc($resultado);
 				
-				// if (password_verify($senha, $usuario['senha'])) {
-				if ($senha === $usuario['senha']) {
+				if (password_verify($senha, $usuario['senha'])) {
 					$_SESSION['logado'] = true;
 					$_SESSION['id_usuario'] = $usuario['login'];
 					$_SESSION['nome_usuario'] = $usuario['nome'];

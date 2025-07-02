@@ -81,11 +81,11 @@ function getDiretor($id_filme) {
     return "Diretor Não Encontrado.";
 }
 
-function inserirFilmeNoBanco($conexao, string $id): void {
+function inserirFilmeNoBanco($conexao, string $id_filme): void {
     $curl = curl_init();
 
     curl_setopt_array($curl, [
-    CURLOPT_URL => "https://api.themoviedb.org/3/movie/$id?language=pt-BR",
+    CURLOPT_URL => "https://api.themoviedb.org/3/movie/$id_filme?language=pt-BR",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
     CURLOPT_MAXREDIRS => 10,
@@ -110,7 +110,7 @@ function inserirFilmeNoBanco($conexao, string $id): void {
     
         // Check if decoding was successful
         if (json_last_error() === JSON_ERROR_NONE) {
-            debug_to_console("JSON do Filme id=$id decodificado com sucesso.");
+            debug_to_console("JSON do Filme id=$id_filme decodificado com sucesso.");
         }
         else {
             echo "Error decoding JSON: " . json_last_error_msg();
@@ -119,14 +119,15 @@ function inserirFilmeNoBanco($conexao, string $id): void {
 
         // print_r($info);
         $titulo = $info['title'];
+        $sinopse = $info['overview'];
         $data = $info['release_date'];
         $ano = (int) explode('-', $data)[0];
-        $diretor = getDiretor($id);
+        $diretor = getDiretor($id_filme);
         $poster_url = $info['poster_path'];
         
-        $insert_sql = "INSERT INTO Filme (id_tmdb, titulo, ano, diretor, poster) values ('$id', '$titulo', $ano, '$diretor', '$poster_url')";
+        $insert_sql = "INSERT INTO Filme (id_tmdb, titulo, ano, diretor, poster, sinopse) values ('$id_filme', '$titulo', $ano, '$diretor', '$poster_url', '$sinopse')";
         $resultado = mysqli_query($conexao, $insert_sql);
-        debug_to_console("Filme $titulo (id=$id) adicionado ao Banco de Dados.");
+        debug_to_console("Filme $titulo (id=$id_filme) adicionado ao Banco de Dados.");
     }
 }
 
@@ -201,7 +202,7 @@ function getFilmesPopulares(): array {
 function getUsuarioTotalFilmes($conexao, string $id_usuario): int {
     $id_usuario = mysqli_real_escape_string($conexao, $id_usuario);
     
-    $sql = "SELECT COUNT(id) as total FROM Filme_Registro WHERE usuario_id_login = '$id_usuario'";
+    $sql = "SELECT COUNT(id) as total FROM Filme_Registro WHERE id_usuario = '$id_usuario'";
     $res = mysqli_query($conexao, $sql);
     
     if ($res) {
@@ -218,7 +219,7 @@ function getUsuarioFilmesEsseAno($conexao, string $id_usuario): int {
     
     $sql = "SELECT COUNT(id) as total 
             FROM Filme_Registro 
-            WHERE usuario_id_login = '$id_usuario' 
+            WHERE id_usuario = '$id_usuario' 
             AND YEAR(data_regis) = $ano_atual";
     
     $res = mysqli_query($conexao, $sql);
@@ -239,17 +240,51 @@ function getFilmesFavoritos($conexao, string $id_usuario): array {
     $arr = [];
     
     // Query to get all favorite movie IDs for this user
-    $sql = "SELECT filme_id_tmdb FROM Filme_Favorito WHERE usuario_id_login = '$id_usuario'";
+    $sql = "SELECT id_filme FROM Filme_Favorito WHERE id_usuario = '$id_usuario'";
     $res = mysqli_query($conexao, $sql);
     
     // If query succeeded and returned rows
     if ($res && mysqli_num_rows($res) > 0) {
         while ($row = mysqli_fetch_assoc($res)) {
-            $arr[] = $row['filme_id_tmdb']; // Cast to integer
+            $arr[] = $row['id_filme']; // Cast to integer
         }
     }
     
     return $arr;
+}
+
+function getEstatisticasFilme($conexao, $id_filme) {
+    $stats = [
+        'registros' => 0,
+        'curtidas' => 0,
+        'watchlist' => 0
+    ];
+    
+    $sql = "SELECT COUNT(*) as total FROM Filme_Registro WHERE id_filme = '$id_filme'";
+    $result = mysqli_query($conexao, $sql);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $stats['registros'] = $row['total'];
+        mysqli_free_result($result);
+    }
+    
+    $sql = "SELECT COUNT(*) as total FROM Filme_Registro WHERE id_filme = '$id_filme' AND curtido = 1";
+    $result = mysqli_query($conexao, $sql);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $stats['curtidas'] = $row['total'];
+        mysqli_free_result($result);
+    }
+    
+    $sql = "SELECT COUNT(*) as total FROM Watchlist WHERE id_filme = '$id_filme'";
+    $result = mysqli_query($conexao, $sql);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $stats['watchlist'] = $row['total'];
+        mysqli_free_result($result);
+    }
+    
+    return $stats;
 }
 
 function getUsuario($conexao, $id) {

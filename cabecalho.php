@@ -1,18 +1,7 @@
 <?php
-    require_once 'db_connect.php';
-
-    if (!isset($_SESSION['logado'])){
-        header('Location: login.php');
-    }
-
-    $id_usuario = $_SESSION['id_usuario'];
-    $sql = "SELECT * FROM Usuario WHERE login = '$id_usuario'";
-    $resultado = mysqli_query($conexao, $sql);
-    $dados = mysqli_fetch_array($resultado);
-    $nome_usuario = getUsuario($conexao, $id_usuario);
-    $nome_usuario = $nome_usuario['nome'];
+    //cabecalho.php
+    require_once 'sessao.php';
 ?>
-
 <header class="main-header">
     <div class="logo">
        

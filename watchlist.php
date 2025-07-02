@@ -1,7 +1,7 @@
 <?php
-require_once 'db_connect.php';
-require_once 'util.php';
-session_start();
+    require_once 'db_connect.php';
+    require_once 'util.php';
+    require_once 'sessao.php';
 ?>
 
 <!DOCTYPE html>
@@ -65,13 +65,13 @@ session_start();
                 <?php
                 // Query para obter todos os filmes assistidos pelo usuário
                 $sql = "SELECT * FROM Watchlist 
-                        WHERE usuario_id_login = '$id_usuario'";
+                        WHERE id_usuario = '$id_usuario'";
 
                 $resultado = mysqli_query($conexao, $sql);
 
                 if (mysqli_num_rows($resultado) > 0) {
                     while ($registro = mysqli_fetch_assoc($resultado)) {
-                        $filme = getFilme($conexao, $registro['filme_id_tmdb']);
+                        $filme = getFilme($conexao, $registro['id_filme']);
                         $titulo = $filme['titulo'];
                         $poster_url = $filme['poster'];
                         ?>
@@ -90,5 +90,4 @@ session_start();
     </div>
     <?php require_once 'rodape.php' ?>
 </body>
-
 <?php mysqli_close($conexao) ?>

@@ -1,7 +1,7 @@
 <?php
-require_once 'db_connect.php';
-require_once 'util.php';
-session_start();
+    require_once 'db_connect.php';
+    require_once 'util.php';
+    require_once 'sessao.php';
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +29,6 @@ session_start();
                     <div class="profile-info">
                         <h1 class="profile-name"><?php echo $nome_usuario ?></h1>
                         <a href="editar_perfil.php"><button class="edit-profile-button">EDITAR PERFIL</button></a>
-                        <!-- <p class="profile-bio">bio</p> -->
                     </div>
                 </div>
 
@@ -64,18 +63,18 @@ session_start();
                 <?php
                 // Query para obter todos os filmes assistidos pelo usuário
                 $sql = "SELECT * FROM Filme_Registro 
-                        WHERE usuario_id_login = '$id_usuario' 
+                        WHERE id_usuario = '$id_usuario' 
                         ORDER BY data_regis DESC"; // Ordenar pela data mais recente
 
                 $resultado = mysqli_query($conexao, $sql);
 
                 if (mysqli_num_rows($resultado) > 0) {
                     while ($registro = mysqli_fetch_assoc($resultado)) {
-                        $filme = getFilme($conexao, $registro['filme_id_tmdb']);
+                        $filme = getFilme($conexao, $registro['id_filme']);
                         $titulo = $filme['titulo'];
                         $poster_url = $filme['poster'];
                         $estrelas = getEstrelas((int)$registro['nota']);
-                        $like = temGostei($registro['gostei']);
+                        $like = temGostei($registro['curtido']);
                         ?>
                         <div class="watched-movie-card">
                             <img src="https://image.tmdb.org/t/p/w185<?php echo $poster_url; ?>" alt="<?php echo $titulo; ?> Poster">
@@ -102,5 +101,4 @@ session_start();
     </div>
     <?php require_once 'rodape.php' ?>
 </body>
-
 <?php mysqli_close($conexao) ?>

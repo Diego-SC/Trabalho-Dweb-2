@@ -1,18 +1,7 @@
 <?php
     require_once 'db_connect.php';
     require_once 'util.php';
-    session_start();
-
-    if (!isset($_SESSION['logado'])){
-        header('Location: login.php');
-    }
-
-    $id_usuario = $_SESSION['id_usuario'];
-    $sql = "SELECT * FROM Usuario WHERE login = '$id_usuario'";
-    $resultado = mysqli_query($conexao, $sql);
-    $dados = mysqli_fetch_array($resultado);
-    $nome_usuario = getUsuario($conexao, $id_usuario);
-    $nome_usuario = $nome_usuario['nome'];
+    require_once 'sessao.php';
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +65,7 @@
                 <?php
                     // SQL query to get the last 3 movies ordered by most recent date
                     $sql = "SELECT * FROM Filme_Registro 
-                            WHERE usuario_id_login = '$id_usuario' 
+                            WHERE id_usuario = '$id_usuario' 
                             ORDER BY data_regis DESC 
                             LIMIT 4";
 
@@ -88,11 +77,11 @@
                         
                         // Loop through each row in the result set
                         while ($registro = mysqli_fetch_assoc($resultado)) {
-                            $filme = getFilme($conexao, $registro['filme_id_tmdb']);
+                            $filme = getFilme($conexao, $registro['id_filme']);
                             $titulo = $filme['titulo'];
                             $poster = $filme['poster'];
                             $estrelas = getEstrelas((int)$registro['nota']);
-                            $like = temGostei($registro['gostei']);
+                            $like = temGostei($registro['curtido']);
 
                             echo "<div class='movie-card'>";
                             echo "<img src='https://image.tmdb.org/t/p/w500$poster' alt='$titulo Poster'>";
@@ -115,7 +104,7 @@
                 <?php
                     // SQL query to get the last 3 movies ordered by most recent date
                     $sql = "SELECT * FROM Filme_Registro 
-                            WHERE usuario_id_login = '$id_usuario' 
+                            WHERE id_usuario = '$id_usuario' 
                             ORDER BY data_regis DESC 
                             LIMIT 4";
 
@@ -127,11 +116,11 @@
                         
                         // Loop through each row in the result set
                         while ($registro = mysqli_fetch_assoc($resultado)) {
-                            $filme = getFilme($conexao, $registro['filme_id_tmdb']);
+                            $filme = getFilme($conexao, $registro['id_filme']);
                             $titulo = $filme['titulo'];
                             $poster = $filme['poster'];
                             $estrelas = getEstrelas((int)$registro['nota']);
-                            $like = temGostei($registro['gostei']);
+                            $like = temGostei($registro['curtido']);
 
                             echo "<div class='movie-card'>";
                             echo "<img src='https://image.tmdb.org/t/p/w500$poster' alt='$titulo Poster'>";
@@ -153,7 +142,7 @@
 
                 <?php
                     $sql = "SELECT * FROM Filme_Registro 
-                            WHERE usuario_id_login = '$id_usuario' 
+                            WHERE id_usuario = '$id_usuario' 
                             AND review IS NOT NULL 
                             AND review != '' 
                             ORDER BY data_regis DESC 
@@ -165,14 +154,14 @@
                         
                         // Loop through each row in the result set
                         while ($registro = mysqli_fetch_assoc($resultado)) {
-                            $filme = getFilme($conexao, $registro['filme_id_tmdb']);
+                            $filme = getFilme($conexao, $registro['id_filme']);
                             $titulo = $filme['titulo'];
                             $ano = $filme['ano'];
                             $poster = $filme['poster'];
                             $review = $registro['review'];
                             $data = formatarDataRegistro($registro['data_regis']);
                             $estrelas = getEstrelas((int)$registro['nota']);
-                            $like = temGostei($registro['gostei']);
+                            $like = temGostei($registro['curtido']);
 
                             echo "<div class='review-entry'>";
                             echo "<img src='https://image.tmdb.org/t/p/w92$poster' alt='$titulo Poster' class='review-movie-poster'>";
@@ -273,5 +262,4 @@
 
     <?php require_once 'rodape.php' ?>
 </body>
-
 <?php mysqli_close($conexao) ?>

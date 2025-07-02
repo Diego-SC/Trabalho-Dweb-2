@@ -1,0 +1,388 @@
+/* Variáveis de cores (importadas dos seus arquivos existentes) */
+:root {
+    --dark-bg: #14181c; /* Fundo principal */
+    --darker-bg: #1c2128; /* Fundo do container */
+    --text-color: #e0e6eb; /* Cor do texto principal */
+    --light-text-color: #8c98a3; /* Texto secundário/inativo */
+    --red-brand: #DD1C1A;
+    --green-brand: #00e067;
+    --star-color: #F0C808;
+    --border-color: #2e353e;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* -------------------- Main Movie Page Container -------------------- */
+.movie-page-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* -------------------- Movie Header Section -------------------- */
+.movie-header {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 50px;
+    align-items: flex-start; /* Alinha o topo dos itens */
+}
+
+.movie-poster-large {
+    flex-shrink: 0; /* Impede que o pôster encolha */
+    position: relative;
+    width: 280px; /* Largura base para o pôster */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.movie-poster-large img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+.stats-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 80%);
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    color: var(--light-text-color);
+    font-size: 14px;
+}
+
+.stats-overlay .stat-count {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stats-overlay .stat-count i {
+    color: var(--text-color);
+}
+
+
+.movie-details {
+    flex-grow: 1;
+}
+
+.movie-details h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 5px;
+    line-height: 1.1;
+}
+
+.movie-details .movie-year {
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--light-text-color);
+    margin-left: 10px;
+}
+
+.movie-director {
+    font-size: 18px;
+    color: var(--light-text-color);
+    margin-bottom: 15px;
+}
+
+.movie-director a {
+    color: var(--text-color); /* Para o nome do diretor */
+}
+
+.movie-tagline {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.movie-overview {
+    font-size: 16px;
+    color: var(--light-text-color);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 700px;
+}
+
+.movie-meta {
+    font-size: 14px;
+    color: var(--light-text-color);
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.movie-meta a {
+    color: var(--light-text-color);
+}
+
+.movie-meta a:hover {
+    color: var(--text-color);
+}
+
+.movie-actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.action-button {
+    background-color: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    color: var(--light-text-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    cursor: pointer; /* Adiciona cursor de ponteiro */
+}
+
+.action-button:hover {
+    background-color: var(--border-color);
+    color: var(--text-color);
+}
+
+/* Estilos para botões de ação "selecionados" */
+.action-button.active {
+    background-color: var(--green-brand);
+    border-color: var(--green-brand);
+    color: var(--darker-bg); /* Texto mais escuro para contraste no verde */
+    font-weight: 600;
+}
+
+.action-button.active:hover {
+    background-color: var(--button-green-hover); /* Variação do verde para hover */
+    border-color: var(--button-green-hover);
+    color: var(--darker-bg);
+}
+
+.your-rating {
+    font-size: 16px;
+    color: var(--light-text-color);
+    font-weight: 500;
+}
+
+.star-rating i.far {
+    font-size: 24px;
+    color: var(--star-color); /* Estrelas vazias coloridas */
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.star-rating i.far:hover {
+    transform: scale(1.1);
+}
+
+/* Novo botão para Review/Log */
+.review-log-button {
+    background-color: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    color: var(--light-text-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+}
+
+.review-log-button:hover {
+    background-color: var(--border-color);
+    color: var(--text-color);
+}
+
+
+/* -------------------- Reviews From Friends Section -------------------- */
+.reviews-from-friends-section {
+    margin-bottom: 50px;
+}
+
+.section-header-film {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.section-header-film p {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.section-header-film .all-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--light-text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.review-entry-film {
+    background-color: var(--darker-bg);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.reviewer-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.review-content-film {
+    flex-grow: 1;
+}
+
+.reviewer-info {
+    font-size: 15px;
+    color: var(--light-text-color);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.reviewer-name {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.review-stars i {
+    color: var(--star-color);
+    font-size: 14px;
+    margin-right: -2px;
+}
+
+.review-text-film {
+    font-size: 16px;
+    color: var(--text-color);
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+/* -------------------- Responsividade -------------------- */
+@media (max-width: 992px) {
+    .movie-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .movie-poster-large {
+        width: 250px;
+    }
+
+    .movie-details {
+        padding: 0 15px;
+    }
+
+    .movie-details h1 {
+        font-size: 38px;
+    }
+
+    .movie-details .movie-year {
+        font-size: 26px;
+    }
+
+    .movie-director {
+        font-size: 16px;
+    }
+
+    .movie-overview {
+        font-size: 15px;
+    }
+
+    .movie-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .movie-rating-section {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-page-container {
+        padding: 0 15px;
+    }
+
+    .movie-poster-large {
+        width: 200px;
+    }
+
+    .movie-details h1 {
+        font-size: 32px;
+    }
+
+    .movie-details .movie-year {
+        font-size: 22px;
+    }
+
+    .review-entry-film {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .reviewer-avatar {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .movie-page-container {
+        padding: 0 10px;
+    }
+
+    .movie-poster-large {
+        width: 160px;
+    }
+
+    .movie-details h1 {
+        font-size: 28px;
+    }
+
+    .movie-details .movie-year {
+        font-size: 18px;
+    }
+
+    .movie-overview, .movie-meta, .action-button, .your-rating, .review-log-button {
+        font-size: 13px;
+    }
+
+    .star-rating i.far {
+        font-size: 20px;
+    }
+}

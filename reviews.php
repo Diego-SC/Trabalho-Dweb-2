@@ -1,7 +1,7 @@
 <?php
     require_once 'db_connect.php';
     require_once 'util.php';
-    session_start();
+    require_once 'sessao.php';
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +64,7 @@
             <section class="recent-reviews-section">
                 <?php
                     $sql = "SELECT * FROM Filme_Registro 
-                            WHERE usuario_id_login = '$id_usuario' 
+                            WHERE id_usuario = '$id_usuario' 
                             AND review IS NOT NULL 
                             AND review != '' 
                             ORDER BY data_regis DESC";
@@ -75,14 +75,14 @@
                         
                         // Loop through each row in the result set
                         while ($registro = mysqli_fetch_assoc($resultado)) {
-                            $filme = getFilme($conexao, $registro['filme_id_tmdb']);
+                            $filme = getFilme($conexao, $registro['id_filme']);
                             $titulo = $filme['titulo'];
                             $ano = $filme['ano'];
                             $poster = $filme['poster'];
                             $review = $registro['review'];
                             $data = formatarDataRegistro($registro['data_regis']);
                             $estrelas = getEstrelas((int)$registro['nota']);
-                            $like = temGostei($registro['gostei']);
+                            $like = temGostei($registro['curtido']);
 
                             echo "<div class='review-entry'>";
                             echo "<img src='https://image.tmdb.org/t/p/w92$poster' alt='$titulo Poster' class='review-movie-poster'>";

@@ -3,13 +3,21 @@
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 
-    $host = 'localhost';
+    $host = 'centerbeam.proxy.rlwy.net';
+    $port = 55823;
     $user = 'root';
-    $password = 'Ian84939333'; // your MySQL password
-    $database = 'TelaCritica';
+    $password = 'BylUqWSCunqMupAzHnXzHhhEJLPKiYmI'; // your MySQL password
+    $database = 'railway';
+
+    // // LOCAL
+    // $host = 'centerbeam.proxy.rlwy.net';
+    // $port = 55823;
+    // $user = 'root';
+    // $password = '12345678'; // your MySQL password
+    // $database = 'TelaCritica';
 
     // Create connection
-    $conexao = mysqli_connect($host, $user, $password, $database);
+    $conexao = mysqli_connect($host, $user, $password, $database, $port);
 
     // Check connection
     if (mysqli_connect_error()){
