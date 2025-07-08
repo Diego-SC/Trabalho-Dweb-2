@@ -25,7 +25,7 @@
         <aside class="sidebar">
             <div class="profile-card">
                 <div class="profile-header-section">
-                    <img src="https://via.placeholder.com/100x100?text=Avatar" alt="Foto de perfil de Ian" class="profile-avatar">
+                    <img src="./perfis/perfil2.jpg" alt="Foto de perfil de Ian" class="profile-avatar">
                     <div class="profile-info">
                         <h1 class="profile-name"><?php echo $nome_usuario ?></h1>
                         <a href="editar_perfil.php"><button class="edit-profile-button">EDITAR PERFIL</button></a>
@@ -63,7 +63,6 @@
             <section class="favorite-films-section">
                 <h2>FILMES FAVORITOS</h2>
                 <?php
-                    // SQL query to get the last 3 movies ordered by most recent date
                     $sql = "SELECT * FROM Filme_Registro 
                             WHERE id_usuario = '$id_usuario' 
                             ORDER BY data_regis DESC 
@@ -71,11 +70,9 @@
 
                     $resultado = mysqli_query($conexao, $sql);
 
-                    // Check if there are any results
                     echo "<div class='movie-grid'>";
                     if (mysqli_num_rows($resultado) > 0) {
                         
-                        // Loop through each row in the result set
                         while ($registro = mysqli_fetch_assoc($resultado)) {
                             $filme = getFilme($conexao, $registro['id_filme']);
                             $titulo = $filme['titulo'];
@@ -102,7 +99,6 @@
                 <h2 class="section-title">ATIVIDADE RECENTE<a href="filmes.php" class="all-link">MAIS</a></h2>
 
                 <?php
-                    // SQL query to get the last 3 movies ordered by most recent date
                     $sql = "SELECT * FROM Filme_Registro 
                             WHERE id_usuario = '$id_usuario' 
                             ORDER BY data_regis DESC 
@@ -110,11 +106,9 @@
 
                     $resultado = mysqli_query($conexao, $sql);
 
-                    // Check if there are any results
                     echo "<div class='movie-grid'>";
                     if (mysqli_num_rows($resultado) > 0) {
                         
-                        // Loop through each row in the result set
                         while ($registro = mysqli_fetch_assoc($resultado)) {
                             $filme = getFilme($conexao, $registro['id_filme']);
                             $titulo = $filme['titulo'];
@@ -149,10 +143,8 @@
                             LIMIT 3";
                     $resultado = mysqli_query($conexao, $sql);
 
-                    // Check if there are any results
                     if (mysqli_num_rows($resultado) > 0) {
                         
-                        // Loop through each row in the result set
                         while ($registro = mysqli_fetch_assoc($resultado)) {
                             $filme = getFilme($conexao, $registro['id_filme']);
                             $titulo = $filme['titulo'];
@@ -187,7 +179,7 @@
 
         <div class="right-sidebar">
             <section class="watchlist-section">
-                <h2>WATCHLIST <span class="watchlist-count">87</span></h2>
+                <h2><a href="watchlist.php"> WATCHLIST</a> <span class="watchlist-count">87</span></h2>
                 <div class="watchlist-grid">
                     <img src="https://image.tmdb.org/t/p/w92/sY9NfT1fPz4SjH0qN6vV9N6j5Hk.jpg" alt="Movie 1">
                     <img src="https://image.tmdb.org/t/p/w92/r5s5b0j6Yt4qR05kH7X9Wz5c9l.jpg" alt="Movie 2">

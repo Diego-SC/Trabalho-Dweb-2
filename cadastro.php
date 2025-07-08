@@ -11,7 +11,7 @@
         $usuario = mysqli_real_escape_string($conexao, $_POST['usuario'] ?? '');
         $senha = mysqli_real_escape_string($conexao, $_POST['senha'] ?? '');
 
-        // Validações básicas
+        // Validações
         if (empty($email) || empty($usuario) || empty($senha) || empty($nome)) {
             $erros[] = "<li>Todos os campos (Email, usuario, senha) são obrigatórios.</li>";
         }
@@ -20,11 +20,10 @@
             $erros[] = "<li>O endereço de e-mail fornecido não é válido.</li>";
         }
 
-        if (strlen($senha) < 8) { // Exemplo de validação de senha
+        if (strlen($senha) < 8) {
             $erros[] = "<li>A senha deve ter pelo menos 8 caracteres.</li>";
         }
 
-        // Verifica se o usuario ou email já existem
         if (empty($erros)) {
             $sql = "SELECT * FROM Usuario WHERE login = '$usuario' OR email = '$email'";
             $res = mysqli_query($conexao, $sql);
@@ -39,14 +38,10 @@
                 }
             }
         }
-
-        // Se não houver erros, insere o usuário no banco de dados
         if (empty($erros)) {
             $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
             $sql_insert = "INSERT INTO Usuario (login, nome, email, senha) VALUES ('$usuario', '$usuario', '$email', '$senha_hash')";
-            // Note: 'nome' está sendo preenchido com o 'usuario' aqui, ajuste conforme sua lógica de negócio.
-
             if (mysqli_query($conexao, $sql_insert)) {
                 $_SESSION['logado'] = true;
                 $_SESSION['id_usuario'] = $usuario;

@@ -25,7 +25,7 @@
         <aside class="sidebar">
             <div class="profile-card">
                 <div class="profile-header-section">
-                    <img src="https://via.placeholder.com/100x100?text=Avatar" alt="Foto de perfil de Ian" class="profile-avatar">
+                    <img src="./perfis/perfil2.jpg" alt="Foto de perfil de Ian" class="profile-avatar">
                     <div class="profile-info">
                         <h1 class="profile-name"><?php echo $nome_usuario ?></h1>
                         <a href="editar_perfil.php"><button class="edit-profile-button">EDITAR PERFIL</button></a>

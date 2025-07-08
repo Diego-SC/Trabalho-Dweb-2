@@ -58,7 +58,7 @@
 
             <div class="film-grid">
             <?php
-                $filmes_populares = getFilmesPopulares(5);
+                $filmes_populares = getFilmesPopulares(7);
 
                 foreach ($filmes_populares as $index => $id_filme) {
                     $filme = getFilme($conexao, $id_filme);

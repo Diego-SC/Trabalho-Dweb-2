@@ -296,7 +296,7 @@ function getUsuario($conexao, $id) {
 
 function getEstrelas($qtde = 0): string {
     $estrelas = "";
-    for ($i=0; $i < $qtde / 2; $i++) { 
+    for ($i=1; $i < ($qtde+1) / 2; $i++) { 
         $estrelas = $estrelas . "<i class='fas fa-star'></i>";
     }
     if ($qtde % 2 == 1) $estrelas = $estrelas . "<i class='fas fa-star-half-alt'></i>";

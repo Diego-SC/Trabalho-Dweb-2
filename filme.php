@@ -26,7 +26,7 @@
     $na_watchlist = false;
 
     if (mysqli_num_rows($resultado) > 0) {
-        $registro = mysql_fetch_assoc($resultado);
+        $registro = mysqli_fetch_assoc($resultado);
         $assistido = true;
         $curtido = $registro['curtido'];
         $review = $registro['review'];
@@ -111,9 +111,9 @@
                         <p>SUA REVIEW</p>
                     </div>
                     <div class='review-entry-film'>
-                        <img src='./perfis/perfil1.jpg' alt='Avatar do $nome_usuario' class='reviewer-avatar'>;
+                        <img src='./perfis/perfil2.jpg' alt='Avatar do $nome_usuario' class='reviewer-avatar'>;
                         <div class='review-content-film'>
-                            <p class='reviewer-info'>Review por <span class='reviewer-name'>$nome_usuario</span> <span class='review-stars'>".getEstrelas($notas)."</span></p>
+                            <p class='reviewer-info'>Review por <span class='reviewer-name'>$nome_usuario</span> <span class='review-stars'>".getEstrelas($nota)."</span></p>
                             <p class='review-text-film'>$review</p>
                         </div>
                     </div>

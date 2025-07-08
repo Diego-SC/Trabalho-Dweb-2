@@ -26,7 +26,7 @@
         <aside class="sidebar">
             <div class="profile-card">
                 <div class="profile-header-section">
-                    <img src="https://via.placeholder.com/100x100?text=Avatar" alt="Foto de perfil de Ian" class="profile-avatar">
+                    <img src="./perfis/perfil2.jpg" alt="Foto de perfil de Ian" class="profile-avatar">
                     <div class="profile-info">
                         <h1 class="profile-name"><?php $dados = getUsuario($conexao, $id_usuario); echo $dados['nome'] ?></h1>
                         <button class="edit-profile-button">EDITAR PERFIL</button>
@@ -70,10 +70,8 @@
                             ORDER BY data_regis DESC";
                     $resultado = mysqli_query($conexao, $sql);
 
-                    // Check if there are any results
                     if (mysqli_num_rows($resultado) > 0) {
                         
-                        // Loop through each row in the result set
                         while ($registro = mysqli_fetch_assoc($resultado)) {
                             $filme = getFilme($conexao, $registro['id_filme']);
                             $titulo = $filme['titulo'];
