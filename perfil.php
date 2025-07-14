@@ -9,7 +9,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do <?php echo $nome_usuario ?></title>
+    <title>Perfil de <?php echo $nome_usuario ?></title>
+    <link rel="stylesheet" href="padrao.css">
     <link rel="stylesheet" href="perfil.css">
     <link rel="stylesheet" href="cabecalho.css">
     <link rel="stylesheet" href="rodape.css">
@@ -20,44 +21,9 @@
 </head>
 <body>
     <?php require_once 'cabecalho.php' ?>
-
+    
     <div class="container">
-        <aside class="sidebar">
-            <div class="profile-card">
-                <div class="profile-header-section">
-                    <img src="./perfis/perfil2.jpg" alt="Foto de perfil de Ian" class="profile-avatar">
-                    <div class="profile-info">
-                        <h1 class="profile-name"><?php echo $nome_usuario ?></h1>
-                        <a href="editar_perfil.php"><button class="edit-profile-button">EDITAR PERFIL</button></a>
-                        <!-- <p class="profile-bio">bio</p> -->
-                    </div>
-                </div>
-
-                <div class="profile-stats">
-                    <div class="stat-item">
-                        <span class="stat-number"><?php echo getUsuarioTotalFilmes($conexao, $id_usuario) ?></span>
-                        <span class="stat-label">FILMES</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number"><?php echo getUsuarioFilmesEsseAno($conexao, $id_usuario) ?></span>
-                        <span class="stat-label">ESTE ANO</span>
-                    </div>
-                </div>
-            </div>
-
-            <nav class="profile-nav">
-                <ul>
-                    <li><a href="perfil.php" class="active">Perfil</a></li>
-                    <li><a href="diario.php">Diário</a></li>
-                    <li><a href="filmes.php">Filmes</a></li>
-                    <li><a href="reviews.php">Reviews</a></li>
-                    <li><a href="watchlist.php">Watchlist</a></li>
-                </ul>
-                <div class="search-profile">
-                    <i class="fas fa-search"></i>
-                </div>
-            </nav>
-        </aside>
+        <?php echo cardPerfil($conexao, $dados_usuario, "perfil") ?>
 
         <main class="main-content">
             <section class="favorite-films-section">
@@ -75,18 +41,19 @@
                         
                         while ($registro = mysqli_fetch_assoc($resultado)) {
                             $filme = getFilme($conexao, $registro['id_filme']);
+                            $id_filme = $registro['id_filme'];
                             $titulo = $filme['titulo'];
                             $poster = $filme['poster'];
                             $estrelas = getEstrelas((int)$registro['nota']);
-                            $like = temGostei($registro['curtido']);
+                            $curtida = getCurtida($registro['curtido']);
 
-                            echo "<div class='movie-card'>";
+                            echo "<a href='filme.php?id=$id_filme'><div class='movie-card'>";
                             echo "<img src='https://image.tmdb.org/t/p/w500$poster' alt='$titulo Poster'>";
                             echo "<div class='film-rating'>
                                 $estrelas
-                                $like
+                                $curtida
                             </div>";
-                            echo "</div>";
+                            echo "</div></a>";
                         }
                     } else {
                         echo "Usuário não possui filmes registrados.";
@@ -111,18 +78,19 @@
                         
                         while ($registro = mysqli_fetch_assoc($resultado)) {
                             $filme = getFilme($conexao, $registro['id_filme']);
+                            $id_filme = $registro['id_filme'];
                             $titulo = $filme['titulo'];
                             $poster = $filme['poster'];
                             $estrelas = getEstrelas((int)$registro['nota']);
-                            $like = temGostei($registro['curtido']);
+                            $curtida = getCurtida($registro['curtido']);
 
-                            echo "<div class='movie-card'>";
+                            echo "<a href='filme.php?id=$id_filme'><div class='movie-card'>";
                             echo "<img src='https://image.tmdb.org/t/p/w500$poster' alt='$titulo Poster'>";
                             echo "<div class='film-rating'>
                                 $estrelas
-                                $like
+                                $curtida
                             </div>";
-                            echo "</div>";
+                            echo "</div></a>";
                         }
                     } else {
                         echo "Usuário não possui filmes registrados.";
@@ -147,22 +115,26 @@
                         
                         while ($registro = mysqli_fetch_assoc($resultado)) {
                             $filme = getFilme($conexao, $registro['id_filme']);
+                            $id_filme = $registro['id_filme'];
+
                             $titulo = $filme['titulo'];
                             $ano = $filme['ano'];
                             $poster = $filme['poster'];
                             $review = $registro['review'];
                             $data = formatarDataRegistro($registro['data_regis']);
                             $estrelas = getEstrelas((int)$registro['nota']);
-                            $like = temGostei($registro['curtido']);
+                            $curtida = getCurtida($registro['curtido']);
 
                             echo "<div class='review-entry'>";
-                            echo "<img src='https://image.tmdb.org/t/p/w92$poster' alt='$titulo Poster' class='review-movie-poster'>";
+                            echo "<a href='filme.php?id=$id_filme'><img src='https://image.tmdb.org/t/p/w92$poster' alt='$titulo Poster' class='review-movie-poster'></a>";
                             echo
                             "<div class='review-content'>
-                                <h3 class='review-movie-title'>$titulo <span class='movie-year'>$ano</span></h3>
+                                <a href='filme.php?id=$id_filme'><h3 class='review-movie-title'>$titulo <span class='movie-year'>$ano</span></h3></a>
                                 <p class='review-watched-info'>
                                     $estrelas
-                                    $like
+                                    $curtida
+                                </p>
+                                <p class='review-watched-info'>
                                     Assistido $data
                                 </p>
                                 <p class='review-text'>$review</p>
@@ -179,16 +151,25 @@
 
         <div class="right-sidebar">
             <section class="watchlist-section">
-                <h2><a href="watchlist.php"> WATCHLIST</a> <span class="watchlist-count">87</span></h2>
+                <h2><a href="watchlist.php"> WATCHLIST</a> <span class="watchlist-count"><?php echo getUsuarioTotalWatchlist($conexao, $id_usuario) ?></span></h2>
                 <div class="watchlist-grid">
-                    <img src="https://image.tmdb.org/t/p/w92/sY9NfT1fPz4SjH0qN6vV9N6j5Hk.jpg" alt="Movie 1">
-                    <img src="https://image.tmdb.org/t/p/w92/r5s5b0j6Yt4qR05kH7X9Wz5c9l.jpg" alt="Movie 2">
-                    <img src="https://image.tmdb.org/t/p/w92/y6C7y2oD6fM7n9Y2vKj81g0h2mJ.jpg" alt="Movie 3">
-                    <img src="https://image.tmdb.org/t/p/w92/uJm8Q3V1z965u3yvMgec92qY0N5.jpg" alt="Movie 4">
-                    <img src="https://image.tmdb.org/t/p/w92/5k7rUo0jC0R3n2Mh71hMv4M81Zk.jpg" alt="Movie 5">
-                    <img src="https://image.tmdb.org/t/p/w92/fWjL9S35hH0xUeH0r6n0bX3P9jW.jpg" alt="Movie 6">
-                    <img src="https://image.tmdb.org/t/p/w92/8c4hQ0Ue9z1i7gB2XoIq9kE1jXl.jpg" alt="Movie 7">
-                    <img src="https://image.tmdb.org/t/p/w92/5fS8J92o1yVzGg6x40qP6kIq7YQ.jpg" alt="Movie 8">
+                    <?php
+                        $sql = "SELECT * FROM Watchlist 
+                                WHERE id_usuario = '$id_usuario' LIMIT 9";
+                        $resultado = mysqli_query($conexao, $sql);
+
+                        if (mysqli_num_rows($resultado) > 0) {
+                            
+                            while ($dados = mysqli_fetch_assoc($resultado)) {
+                                $filme = getFilme($conexao, $dados['id_filme']);
+                                $id_filme = $dados['id_filme'];
+                                $poster = $filme['poster'];
+                                $titulo = $filme['titulo'];
+                                
+                                echo "<a href='filme.php?id=$id_filme'> <img src='https://image.tmdb.org/t/p/w92$poster' alt='$titulo'> </a>";
+                            }
+                        }
+                    ?>
                 </div>
             </section>
 

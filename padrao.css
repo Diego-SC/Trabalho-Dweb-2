@@ -1,0 +1,32 @@
+/* Variáveis de cor (se não estiverem em style.css ou padrao.css, inclua aqui) */
+:root {
+    --dark-bg: #14181c;
+    --darker-bg: #1c2128;
+    --alt-dark-bg: #2a3138;
+    --input-border: #3d454e; 
+    --text-color: #e0e6eb;
+    --light-text-color: #8c98a3;
+    --accent-color: #4CAF50;
+    --accent-green: #4CAF50;
+    --accent-blue: #00bcd4;
+    --border-color: #2e353e;
+    --star-color: #fdd835;
+    --red-brand: #DD1C1A;
+    --button-green: #00e067;
+    --button-green-hover: #00c75c;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-color);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}

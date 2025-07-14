@@ -1,0 +1,226 @@
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-container {
+    background-color: var(--darker-bg); /* Darker background for the modal */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 600px; /* Adjust max-width as needed */
+    padding: 25px;
+    box-sizing: border-box;
+    position: relative;
+    color: var(--light-text-color);
+    border: 1px solid var(--border-color); /* Add subtle border */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: var(--text-color);
+    padding: 0;
+    border: none;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: var(--light-text-color);
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-button:hover {
+    color: var(--text-color);
+}
+
+.modal-content {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.movie-info {
+    flex-shrink: 0; /* Prevents poster from shrinking */
+}
+
+.movie-poster-small img {
+    width: 120px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.review-section {
+    flex-grow: 1;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.review-header h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1.3em;
+    font-weight: 500;
+    margin-right: 15px;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    background-color: var(--alt-dark-bg); /* Use input background color */
+    color: var(--text-color);
+    font-size: 1em;
+    resize: vertical;
+    min-height: 120px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+textarea:focus {
+    border-color: var(--red-brand); /* Highlight color on focus */
+}
+
+.rating-and-like {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.rating-selector-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rating-selector-container label {
+    color: var(--text-color);
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.rating-select {
+    padding: 8px 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    background-color: var(--alt-dark-bg);
+    color: var(--text-color);
+}
+
+.rating-select:focus {
+    border-color: var(--red-brand);
+}
+
+.like-button {
+    background: none;
+    border: none;
+    color: var(--light-text-color); /* Default grey for heart */
+    font-size: 2em; /* Adjust heart size */
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 0; /* Remove default button padding */
+}
+
+.like-button.active,
+.like-button:hover {
+    color: var(--red-brand); /* Red for liked heart, using red-brand variable */
+}
+
+.save-button-container {
+    text-align: right;
+    margin-top: 25px;
+}
+
+.save-button {
+    background-color: var(--button-green); /* Green color for save, using button-green */
+    color: var(--darker-bg); /* Text darker for contrast on green button */
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-weight: 600;
+}
+
+.save-button:hover {
+    background-color: #00c75c; /* A slightly darker green for hover */
+}
+
+.delete {
+    background-color: red;
+}
+.delete:hover {
+    background-color: darkred;
+}
+
+/* Message styling */
+.success-message {
+    color: var(--button-green);
+    background-color: #2a3d31; /* Lighter dark green */
+    border: 1px solid #3c5e4a;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.95em;
+}
+
+.error-message {
+    color: var(--red-brand);
+    background-color: #4d2f31; /* Lighter dark red */
+    border: 1px solid #6e4042;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.95em;
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        text-align: center; /* Center text for smaller screens */
+    }
+    .review-header h3 {
+        margin-right: 0; /* Remove right margin when stacked */
+    }
+    .rating-and-like {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+}

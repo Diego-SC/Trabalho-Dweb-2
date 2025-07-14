@@ -6,21 +6,21 @@
 
 body {
     font-family: 'Inter', 'Roboto', sans-serif;
-    background-color: #14181c;
-    color: #e0e6eb;
+    background-color: var(--dark-bg);
+    color: var(--text-color);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased; /* Melhorar renderização da fonte */
     font-size: 15px;
 }
 
 a {
-    color: #8c98a3;
+    color: var(--light-text-color);
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 a:hover {
-    color: #e0e6eb;
+    color: var(--text-color);
 }
 
 ul {
@@ -49,7 +49,7 @@ button {
 
 @media (min-width: 992px) {
     .container {
-        grid-template-columns: 7fr 3fr; /* Main content e sidebar na desktop */
+        grid-template-columns: 7frr; /* Main content e sidebar na desktop */
         gap: 40px;
     }
 }
@@ -77,7 +77,7 @@ button {
 
 /* Perfil */
 .profile-card {
-    background-color: #1c2128;
+    background-color: var(--darker-bg);
     border-radius: 8px;
     padding: 25px 30px;
     margin-bottom: 25px;
@@ -95,7 +95,7 @@ button {
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #DD1C1A;
+    border: 3px solid var(--accent-color);
     flex-shrink: 0;
 }
 
@@ -108,12 +108,12 @@ button {
     font-weight: 700;
     margin: 0;
     line-height: 1.1;
-    color: #e0e6eb;
+    color: var(--text-color);
 }
 
 .edit-profile-button {
-    background-color: #2e353e;
-    color: #8c98a3;
+    background-color: var(--border-color);
+    color: var(--light-text-color);
     padding: 5px 12px;
     border-radius: 4px;
     font-size: 12px;
@@ -124,39 +124,39 @@ button {
 
 .edit-profile-button:hover {
     background-color: #444c57;
-    color: #e0e6eb;
+    color: var(--text-color);
 }
 
 .profile-bio {
     font-size: 15px;
-    color: #8c98a3;
+    color: var(--light-text-color);
     margin: 10px 0;
 }
 
 .profile-location {
     font-size: 13px;
-    color: #8c98a3;
+    color: var(--light-text-color);
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 .profile-location i {
-    color: #DD1C1A;
+    color: var(--accent-color);
 }
 
 .profile-handle {
-    color: #8c98a3;
+    color: var(--light-text-color);
 }
 
 .profile-handle:hover {
-    color: #e0e6eb;
+    color: var(--text-color);
 }
 
 .profile-stats {
     display: flex;
     justify-content: space-around;
-    border-top: 1px solid #2e353e;
+    border-top: 1px solid var(--border-color);
     padding-top: 20px;
     flex-wrap: wrap;
     gap: 15px 0;
@@ -172,21 +172,21 @@ button {
     display: block;
     font-size: 32px;
     font-weight: 600;
-    color: #e0e6eb;
+    color: var(--text-color);
     line-height: 1;
 }
 
 .stat-label {
     display: block;
     font-size: 14px;
-    color: #8c98a3;
+    color: var(--light-text-color);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 /* Navegação do Perfil */
 .profile-nav {
-    background-color: #1c2128;
+    background-color: var(--darker-bg);
     border-radius: 8px;
     padding: 12px 20px;
     display: flex;
@@ -204,17 +204,17 @@ button {
 
 .profile-nav ul li a {
     position: relative;
-    color: #8c98a3;
+    color: var(--light-text-color);
     font-weight: 500;
     padding: 5px 0;
 }
 
 .profile-nav ul li a:hover {
-    color: #e0e6eb;
+    color: var(--text-color);
 }
 
 .profile-nav ul li a.active {
-    color: #e0e6eb;
+    color: var(--text-color);
 }
 
 .profile-nav ul li a.active::after {
@@ -224,17 +224,17 @@ button {
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: #DD1C1A;
+    background-color: var(--accent-color);
 }
 
 .search-profile {
-    color: #8c98a3;
+    color: var(--light-text-color);
     font-size: 18px;
     cursor: pointer;
 }
 
 .search-profile:hover {
-    color: #e0e6eb;
+    color: var(--text-color);
 }
 
 /* Seções de Filmes (Favoritos, Recente) */
@@ -245,9 +245,9 @@ section {
 h2 {
     font-size: 24px;
     font-weight: 600;
-    color: #e0e6eb;
+    color: var(--text-color);
     margin-bottom: 20px;
-    border-bottom: 1px solid #2e353e;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 12px;
     display: flex;
     justify-content: space-between;
@@ -257,7 +257,7 @@ h2 {
 h2 .all-link {
     font-size: 14px;
     font-weight: 500;
-    color: #8c98a3;
+    color: var(--light-text-color);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -294,20 +294,19 @@ h2 .all-link {
     bottom: 8px;
     left: 8px;
     font-size: 16px;
-    text-shadow: 0 0 5px rgba(0,0,0,0.7); /* Sombra para visibilidade */
+    text-shadow: 0 0 12px rgba(0,0,0,1);
+    display: flex;
+    gap: 4px;
 }
 
 /* Estrelas */
 .film-rating .fas, .review-watched-info .fas {
-    color: #F0C808;
-}
-.film-rating i {
-    margin-right: -2px; /* Ajusta o espaçamento das estrelas */
+    color: var(--star-color);
 }
 
 /* Seção Watchlist */
 .watchlist-section h2 .watchlist-count {
-    color: #8c98a3;
+    color: var(--light-text-color);
     font-size: 20px;
     margin-left: 5px;
 }
@@ -333,7 +332,7 @@ h2 .all-link {
 
 /* Seção Diário */
 .diary-section h2 .diary-count {
-    color: #8c98a3;
+    color: var(--light-text-color);
     font-size: 20px;
     margin-left: 5px;
 }
@@ -362,7 +361,7 @@ h2 .all-link {
     text-align: center;
     flex-shrink: 0; /* Impede que a data encolha */
     line-height: 1.1;
-    color: #8c98a3;
+    color: var(--light-text-color);
 }
 
 .entry-date .month {
@@ -376,7 +375,7 @@ h2 .all-link {
     display: block;
     font-size: 28px;
     font-weight: 700;
-    color: #e0e6eb;
+    color: var(--text-color);
 }
 
 .entry-details {
@@ -387,7 +386,7 @@ h2 .all-link {
 .entry-details .movie-title {
     font-size: 16px;
     font-weight: 600;
-    color: #e0e6eb;
+    color: var(--text-color);
     margin-bottom: 5px;
 }
 
@@ -403,7 +402,7 @@ h2 .all-link {
 }
 
 .entry-rating {
-    color: #F0C808;
+    color: var(--star-color);
     font-size: 14px;
     display: block; /* Garante que as estrelas fiquem abaixo do título */
     clear: right; /* Limpa o float do pôster */
@@ -419,20 +418,20 @@ h2 .all-link {
 
 .recent-reviews-section h2.section-title {
     /* Mantém o estilo de H2 já definido */
-    border-bottom: 1px solid #2e353e; /* Linha divisória */
+    border-bottom: 1px solid var(--border-color); /* Linha divisória */
     padding-bottom: 12px;
 }
 
 .recent-reviews-section h2 .more-link {
     font-size: 14px;
     font-weight: 500;
-    color: #8c98a3;
+    color: var(--light-text-color);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .review-entry {
-    background-color: #1c2128;
+    background-color: var(--darker-bg);
     border-radius: 8px;
     padding: 20px;
     display: grid;
@@ -440,7 +439,7 @@ h2 .all-link {
     gap: 20px;
     margin-bottom: 24px;
     align-items: flex-start;
-    border: 1px solid #2e353e;
+    border: 1px solid var(--border-color);
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
@@ -479,7 +478,7 @@ h2 .all-link {
 .review-movie-title {
     font-size: 20px;
     font-weight: 600;
-    color: #e0e6eb;
+    color: var(--text-color);
     margin-bottom: 5px;
     line-height: 1.2;
 }
@@ -487,14 +486,14 @@ h2 .all-link {
 .movie-year {
     font-size: 14px;
     font-weight: 300;
-    color: #8c98a3;
+    color: var(--light-text-color);
     margin-left: 5px;
 }
 
 .review-watched-info {
     font-size: 14px;
-    color: #8c98a3;
-    margin-bottom: 10px;
+    color: var(--light-text-color);
+    margin: 4 0;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -507,7 +506,7 @@ h2 .all-link {
 
 .review-text {
     font-size: 16px;
-    color: #e0e6eb;
+    color: var(--text-color);
     margin-bottom: 15px;
     line-height: 1.5;
 }
@@ -778,7 +777,7 @@ h2 .all-link {
 }
 
 .watched-card-rating {
-    color: #F0C808;
+    color: var(--star-color);
     font-size: 14px;
     display: flex;
     align-items: center;
@@ -789,7 +788,7 @@ h2 .all-link {
 }
 
 .watched-card-actions {
-    color: #8c98a3;
+    color: var(--light-text-color);
     font-size: 14px;
     display: flex;
     gap: 8px;
@@ -801,7 +800,7 @@ h2 .all-link {
 }
 
 .watched-card-actions i.fa-check {
-    color: #DD1C1A;
+    color: var(--accent-color);
 }
 
 .watched-card-actions i.far.fa-heart:hover {

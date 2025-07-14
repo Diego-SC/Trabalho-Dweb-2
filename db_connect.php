@@ -8,15 +8,13 @@
     // $user = 'root';
     // $password = 'BylUqWSCunqMupAzHnXzHhhEJLPKiYmI';
     // $database = 'railway';
+    // $conexao = mysqli_connect($host, $user, $password, $database, $port);
 
     // LOCAL
     $host = 'localhost';
-    // $port = 3306;
     $user = 'root';
     $password = 'Ian84939333'; 
     $database = 'TelaCritica';
-
-    // $conexao = mysqli_connect($host, $user, $password, $database, $port);
     $conexao = mysqli_connect($host, $user, $password, $database);
 
     if (mysqli_connect_error()){

@@ -31,17 +31,22 @@
         $curtido = $registro['curtido'];
         $review = $registro['review'];
         $nota = $registro['nota'];
+        $data = $registro['data_regis'];
     }
 
     // Watchlist
-    $sql = "SELECT * FROM Watchlist WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
-    $resultado = mysqli_query($conexao, $sql);
-
-    if (mysqli_num_rows($resultado) > 0) {
-        $na_watchlist = true;
-    }
+    $na_watchlist = naWatchlist($conexao, $id_usuario, $id_filme);
 
     $stats = getEstatisticasFilme($conexao, $id_filme);
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['toggle_curtido'])) {
+            toggleCurtido($conexao, $id_usuario, $id_filme, $assistido, $curtido);
+        }
+        elseif (isset($_POST['toggle_watchlist'])) {
+            toggleWatchlist($conexao, $id_usuario, $id_filme, $assistido, $na_watchlist);
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -50,8 +55,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $titulo; ?> - TelaCrítica</title>
-    <link rel="stylesheet" href="perfil.css">
+    <link rel="stylesheet" href="padrao.css">
     <link rel="stylesheet" href="filme.css">
+    <link rel="stylesheet" href="perfil.css">
     <link rel="stylesheet" href="cabecalho.css">
     <link rel="stylesheet" href="rodape.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,13 +80,13 @@
             </div>
             <div class="movie-details">
                 <h1><?php echo $titulo; ?> <span class="movie-year"><?php echo $ano; ?></span></h1>
-                <p class="movie-director">Dirigido por <a href="#"><?php echo $diretor; ?></a></p>
+                <p class="movie-director"><?php echo $diretor ? "Dirigido por <span> $diretor </span>" : "Diretor não Encontrado"  ?></p>
                 <p class="movie-overview"><?php echo $sinopse; ?></p>
                 <div class="movie-meta">
                     <!-- <span><?php echo $duracao; ?></span> -->
                     <?php 
                         if ($assistido) {
-                            echo '<span class="your-rating">Sua Avaliação:</span>';
+                            if ($nota != 0) echo '<span class="your-rating">Sua Avaliação:</span>';
                             echo '<div class="star-rating">' . getEstrelas($nota) . '</div>';
                         }
                     ?>
@@ -90,30 +96,44 @@
                 </div>
 
                 <div class="movie-actions">
-                    <button class="action-button <?php echo $assistido ? 'active' : ''; ?>">
-                        <i class="<?php echo $assistido ? 'fas fa-eye' : 'far fa-eye'; ?>"></i> <?php echo $assistido ? 'Assistido' : 'Assistir'; ?>
-                    </button>
-                    <button class="action-button <?php echo $curtido ? 'active' : ''; ?>">
-                        <i class="<?php echo $curtido ? 'fas fa-heart' : 'fa fa-heart'; ?>"></i> <?php echo $curtido ? 'Remover' : 'Curtir'; ?>
-                    </button>
-                    <button class="action-button <?php echo $na_watchlist ? 'active' : ''; ?>">
-                        <i class="<?php echo $na_watchlist ? 'fa fa-check' : 'far fa-plus-square'; ?>"></i> <?php echo $na_watchlist ? 'Remover' : 'Watchlist'; ?>
-                    </button>
+                    <div>
+                        <button class="action-button watched <?php echo $assistido ? 'active' : ''; ?>">
+                            <i class="<?php echo $assistido ? 'fas fa-eye' : 'far fa-eye'; ?>"></i> <?php echo $assistido ? 'Assistido' : 'Assistir'; ?>
+                        </button>
+                    </div>
+
+                    <form method="POST">
+                        <button type="submit" name="toggle_curtido" class="action-button <?php echo $curtido ? 'active' : ''; ?>">
+                            <i class="<?php echo $curtido ? 'fas fa-heart' : 'fa fa-heart'; ?>"></i> <?php echo $curtido ? 'Remover' : 'Curtir'; ?>
+                        </button>
+                    </form>
+
+                    <form method="POST">
+                        <button type="submit" name="toggle_watchlist" class="action-button <?php echo $na_watchlist ? 'active' : ''; ?>">
+                            <i class="<?php echo $na_watchlist ? 'fa fa-check' : 'far fa-plus-square'; ?>"></i> <?php echo $na_watchlist ? 'Remover' : 'Watchlist'; ?>
+                        </button>
+                    </form>
+
+                    <a href="registrar_filme.php?id=<?php echo $id_filme; ?>" class="review-log-button">
+                        <i class="fas fa-pen"></i> <?php echo $assistido ? 'Editar Registro' : 'Registrar...'; ?>
+                    </a>
                 </div>
-                <a href="registrar_filme.php?<?php echo $id_filme ?>" class="review-log-button"><i class="fas fa-pen"></i> Registrar...</a>
             </div>
         </div>
 
         <?php
             if ($assistido && $review != "") {
+                $data_formatada = formatarDataRegistro($data);
                 echo "<section class='reviews-from-friends-section'>
                     <div class='section-header-film'>
                         <p>SUA REVIEW</p>
                     </div>
                     <div class='review-entry-film'>
-                        <img src='./perfis/perfil2.jpg' alt='Avatar do $nome_usuario' class='reviewer-avatar'>;
+                        <img src='./assets/perfil2.jpg' alt='Avatar do $nome_usuario' class='reviewer-avatar'>
                         <div class='review-content-film'>
-                            <p class='reviewer-info'>Review por <span class='reviewer-name'>$nome_usuario</span> <span class='review-stars'>".getEstrelas($nota)."</span></p>
+                            <p class='reviewer-info'>Review por <span class='reviewer-name'>$nome_usuario</span>
+                            em $data_formatada</p>
+                            <span class='review-stars'>".getEstrelas($nota)."</span>
                             <p class='review-text-film'>$review</p>
                         </div>
                     </div>

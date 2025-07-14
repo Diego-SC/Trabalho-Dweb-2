@@ -1,4 +1,8 @@
 <?php
+
+/*
+    Printar detalhes da execução do backend no console
+*/
 function debug_to_console($data): void {
     $output = $data;
     if (is_array($output))
@@ -7,7 +11,31 @@ function debug_to_console($data): void {
     echo "<script>console.log('DEBUG: " . $output . "' );</script>";
 }
 
-function formatarDataRegistro($dataMysql) {
+function numeroParaMesAbreviado($numero) {
+    $meses = [
+        1 => 'Jan',
+        2 => 'Fev',
+        3 => 'Mar',
+        4 => 'Abr',
+        5 => 'Mai',
+        6 => 'Jun',
+        7 => 'Jul',
+        8 => 'Ago',
+        9 => 'Set',
+        10 => 'Out',
+        11 => 'Nov',
+        12 => 'Dez'
+    ];
+    
+    return $meses[$numero] ?? 'Inválido';
+}
+
+/*
+    Formatar Data de Registro
+    Parâmetros: (data)
+    Retorno: Data formatada (string)
+*/
+function formatarDataRegistro($dataMysql): string {
     $partes = explode('-', $dataMysql);
     if (count($partes) !== 3) {
         return "(data inválida)";
@@ -16,36 +44,26 @@ function formatarDataRegistro($dataMysql) {
     $ano = $partes[0];
     $mes = (int)$partes[1];
     $dia = (int)$partes[2];
-
-    // Mapeia números de mês para nomes em português
-    $meses = [
-        1 => 'Jan',
-        2 => 'Fev',
-        3 => 'Mar',
-        4 => 'Abr',
-        5 => 'Maio',
-        6 => 'Jun',
-        7 => 'Jul',
-        8 => 'Agos',
-        9 => 'Set',
-        10 => 'Out',
-        11 => 'Nov',
-        12 => 'Dez'
-    ];
+    $mes_abrev = numeroParaMesAbreviado($mes);
 
     // Verifica se a data é válida
     if (!checkdate($mes, $dia, $ano)) {
         return "(data inválida)";
     }
 
-    return "$dia de {$meses[$mes]} de $ano";
+    return "$dia de {$mes_abrev} de $ano";
 }
 
-function getDiretor($id_filme) {
+/*
+    Extrair Diretor de um filme via API
+    Parâmetros: (id_filme)
+    Retorno: Nome do Diretor (string)
+*/
+function getDiretor($id_filme): string {
     $curl = curl_init();
 
     curl_setopt_array($curl, [
-    CURLOPT_URL => "https://api.themoviedb.org/3/movie/$id_filme/credits?language=en-US",
+    CURLOPT_URL => "https://api.themoviedb.org/3/movie/$id_filme/credits?language=pt-BR",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
     CURLOPT_MAXREDIRS => 10,
@@ -78,10 +96,15 @@ function getDiretor($id_filme) {
         }
     }
 
-    return "Diretor Não Encontrado.";
+    return "";
 }
 
+/*
+    Inserir filme no Banco de Dados
+    Parâmetros: (conexao, id_filme)
+*/
 function inserirFilmeNoBanco($conexao, string $id_filme): void {
+    $id_filme = mysqli_real_escape_string($conexao, $id_filme);
     $curl = curl_init();
 
     curl_setopt_array($curl, [
@@ -108,7 +131,6 @@ function inserirFilmeNoBanco($conexao, string $id_filme): void {
     } else {
         $info = json_decode($response, true);
     
-        // Check if decoding was successful
         if (json_last_error() === JSON_ERROR_NONE) {
             debug_to_console("JSON do Filme id=$id_filme decodificado com sucesso.");
         }
@@ -117,22 +139,59 @@ function inserirFilmeNoBanco($conexao, string $id_filme): void {
             return;
         }
 
-        // print_r($info);
-        $titulo = $info['title'];
-        $sinopse = $info['overview'];
+        // Escape all string values before inserting into database
+        $titulo = mysqli_real_escape_string($conexao, $info['title']);
         $data = $info['release_date'];
         $ano = (int) explode('-', $data)[0];
-        $diretor = getDiretor($id_filme);
-        $poster_url = $info['poster_path'];
+        $diretor = mysqli_real_escape_string($conexao, getDiretor($id_filme));
+        $poster_url = mysqli_real_escape_string($conexao, $info['poster_path']);
+        $sinopse = mysqli_real_escape_string($conexao, $info['overview']);
+
+        if (empty($sinopse)) {
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+            CURLOPT_URL => "https://api.themoviedb.org/3/movie/$id_filme?language=en-US",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => [
+                "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3ZTBiNTFhMTdhYjU1ZTc5YzgyMzZlNGQyMWNlMTAxMiIsIm5iZiI6MTc0ODI4MDY3My40NDEsInN1YiI6IjY4MzRhNTYxOGFkYzUyMzAxZmI2YjkyOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.QbT9MwCftUih_rKG-s0m8sPv9owN7ffze8ZWPLbkpaM",
+                "accept: application/json"
+            ],
+            ]);
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            curl_close($curl);
+            if ($err) {
+                debug_to_console("cURL Error #:" . $err);
+            }
+            else {
+                $info = json_decode($response, true);
+                $sinopse = mysqli_real_escape_string($conexao, $info['overview']);
+            }
+        }
         
-        $insert_sql = "INSERT INTO Filme (id_tmdb, titulo, ano, diretor, poster, sinopse) values ('$id_filme', '$titulo', $ano, '$diretor', '$poster_url', '$sinopse')";
+        $insert_sql = "INSERT INTO Filme (id_tmdb, titulo, ano, diretor, poster, sinopse) 
+                      VALUES ('$id_filme', '$titulo', $ano, '$diretor', '$poster_url', '$sinopse')";
+        
         $resultado = mysqli_query($conexao, $insert_sql);
-        debug_to_console("Filme $titulo (id=$id_filme) adicionado ao Banco de Dados.");
+        
+        if (!$resultado) {
+            debug_to_console("Error inserting movie id = : " . $id_filme . "<br>" . mysqli_error($conexao));
+        } else {
+            debug_to_console("Filme $titulo (id=$id_filme) adicionado ao Banco de Dados.");
+        }
     }
 }
 
 /*
-Parametros: (conexao, id_filme)
+    Extrair dados de um filme
+    Parâmetros: (conexao, id_filme)
+    Retorno: Array com detalhes do filme
 */
 function getFilme($conexao, string $id_filme): array {
     $sql = "SELECT * FROM Filme
@@ -152,6 +211,11 @@ function getFilme($conexao, string $id_filme): array {
     return mysqli_fetch_array($resultado);
 }
 
+/*
+    Pegar lista de filmes populares
+    Parâmetros: (page)
+    Retorno: Array 6 filmes
+*/
 function getFilmesPopulares($page=1): array {
     $movieIds = [];
     $qtd = 6;
@@ -159,7 +223,7 @@ function getFilmesPopulares($page=1): array {
     $curl = curl_init();
     
     curl_setopt_array($curl, [
-        CURLOPT_URL => "https://api.themoviedb.org/3/movie/popular?language=pt-BR&region=BR&page=$page",
+        CURLOPT_URL => "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=pt-BR&page=$page&sort_by=popularity.desc",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
@@ -189,16 +253,22 @@ function getFilmesPopulares($page=1): array {
     
     foreach ($data['results'] as $movie) {
         if (isset($movie['id'])) {
+            // Não incluir filmes sem sinopse / Filtrar filmes impróprios
+            if (empty($movie['overview'])) continue;
             $movieIds[] = $movie['id'];
             if (count($movieIds) >= $qtd) {
                 break;
             }
         }
     }
-    
     return array_slice($movieIds, 0, $qtd);
 }
 
+/*
+    Pegar a quantidade total de filmes do usuário
+    Parâmetros: ($conexao, id_usuario)
+    Retorno: Qunatitade total de filmes do usuário (int) 
+*/
 function getUsuarioTotalFilmes($conexao, string $id_usuario): int {
     $id_usuario = mysqli_real_escape_string($conexao, $id_usuario);
     
@@ -213,6 +283,11 @@ function getUsuarioTotalFilmes($conexao, string $id_usuario): int {
     return 0; // Return 0 if there's an error or no results
 }
 
+/*
+    Pegar a quantidade total de filmes do usuário este ano
+    Parâmetros: ($conexao, id_usuario)
+    Retorno: Qunatitade total de filmes do usuário este ano (int) 
+*/
 function getUsuarioFilmesEsseAno($conexao, string $id_usuario): int {
     $id_usuario = mysqli_real_escape_string($conexao, $id_usuario);
     $ano_atual = date('Y'); // Get current year
@@ -232,18 +307,18 @@ function getUsuarioFilmesEsseAno($conexao, string $id_usuario): int {
     return 0; // Return 0 if there's an error or no results
 }
 
+/*
+    Pegar lista de filmes favoritos do usuário
+    Parâmetros: ($conexao, id_usuario)
+    Retorno: Array com os filmes favoritos do usuário
+*/
 function getFilmesFavoritos($conexao, string $id_usuario): array {
-    // Sanitize the input
     $id_usuario = mysqli_real_escape_string($conexao, $id_usuario);
     
-    // Initialize empty array
     $arr = [];
-    
-    // Query to get all favorite movie IDs for this user
     $sql = "SELECT id_filme FROM Filme_Favorito WHERE id_usuario = '$id_usuario'";
     $res = mysqli_query($conexao, $sql);
     
-    // If query succeeded and returned rows
     if ($res && mysqli_num_rows($res) > 0) {
         while ($row = mysqli_fetch_assoc($res)) {
             $arr[] = $row['id_filme']; // Cast to integer
@@ -253,6 +328,11 @@ function getFilmesFavoritos($conexao, string $id_usuario): array {
     return $arr;
 }
 
+/*
+    Pegar estatísticas do filme específicas do site
+    Parâmetros: ($conexao, id_filme)
+    Retorno: Array com o total de registros, curtidas e salvos na watchlist
+*/
 function getEstatisticasFilme($conexao, $id_filme) {
     $stats = [
         'registros' => 0,
@@ -287,13 +367,22 @@ function getEstatisticasFilme($conexao, $id_filme) {
     return $stats;
 }
 
+/*
+    Pegar dados do usuário
+    Parâmetros: ($conexao, id_usuario)
+    Retorno: Array com o dados do usuario
+*/
 function getUsuario($conexao, $id) {
     $sql = "SELECT * from Usuario where login = '$id'";
     $resultado = mysqli_query($conexao, $sql);
     return mysqli_fetch_array($resultado);
-    // print_r("Perfil: " . $dados['nome'] . "<br>");
 }
 
+/*
+    Pegar HTML para a respectiva nota passada
+    Parâmetros: ($qtde)
+    Retorno: HTML das Estrelas (string)
+*/
 function getEstrelas($qtde = 0): string {
     $estrelas = "";
     for ($i=1; $i < ($qtde+1) / 2; $i++) { 
@@ -303,10 +392,134 @@ function getEstrelas($qtde = 0): string {
     return $estrelas;
 }
 
-function temGostei($flag): string {
-    $like = "";
-    if ($flag == 1) $like = '<span class="like-icon active"> ❤️ </span>';
-    return $like;
+/*
+    Pegar HTML para um coração de curtido
+    Parâmetros: ($flag: bool)
+    Retorno: HTML do curtido (string)
+*/
+function getCurtida(bool $flag): string {
+    $curtida = "";
+    if ($flag == 1) $curtida = '<i class="fas fa-heart" style="color:red;"></i>';
+    return $curtida;
 }
 
+function naWatchlist($conexao, $id_usuario, $id_filme) {
+    $sql = "SELECT * FROM Watchlist WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+    $resultado = mysqli_query($conexao, $sql);
+
+    if (mysqli_num_rows($resultado) > 0) {
+        return true;
+    }
+    return false;
+}
+
+function toggleCurtido($conexao, $id_usuario, $id_filme, &$assistido, &$curtido): void {
+    $novo_curtido = $curtido ? 0 : 1; // Toggle
+
+    if (!$assistido) {
+        $sql = "INSERT INTO Filme_Registro (id_usuario, id_filme, review, nota, curtido, data_regis) VALUES ('$id_usuario', '$id_filme', '', '0', '1', NOW())";
+    }
+    else {
+        $sql = "UPDATE Filme_Registro SET curtido = '$novo_curtido' WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+    }
+    
+    if (mysqli_query($conexao, $sql)) {
+        $curtido = $novo_curtido;
+        $assistido = true;
+    }
+    header("Location: filme.php?id=$id_filme");
+    exit();
+}
+
+function toggleWatchlist($conexao, $id_usuario, $id_filme, &$assistido, &$na_watchlist): void {
+    if ($assistido) {
+        return;
+    }
+
+    if ($na_watchlist) {
+        $sql = "DELETE FROM Watchlist WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+    }
+    else {
+        $sql = "INSERT INTO Watchlist (id_usuario, id_filme) VALUES ('$id_usuario', '$id_filme')";
+    }
+    
+    if (mysqli_query($conexao, $sql)) {
+        $na_watchlist = !$na_watchlist;
+    }
+    header("Location: filme.php?id=$id_filme");
+    exit();
+}
+
+/*
+    Pegar a quantidade total de filmes do usuário na watchlist
+    Parâmetros: ($conexao, id_usuario)
+    Retorno: Qunatitade total de filmes do usuário na watchlist (int) 
+*/
+function getUsuarioTotalWatchlist($conexao, string $id_usuario): int {
+    $id_usuario = mysqli_real_escape_string($conexao, $id_usuario);
+    
+    $sql = "SELECT COUNT(*) as total FROM Watchlist WHERE id_usuario = '$id_usuario'";
+    $res = mysqli_query($conexao, $sql);
+    
+    if ($res) {
+        $linha = mysqli_fetch_assoc($res);
+        return (int)$linha['total']; // Return the count as an integer
+    }
+    
+    return 0; // Return 0 if there's an error or no results
+}
+
+
+function deletarRegistro($conexao, $id_usuario, $id_filme) {
+    $sql_delete = "DELETE FROM Filme_Registro WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+
+    if (mysqli_query($conexao, $sql_delete)) {
+        header("Location: filme.php?id=$id_filme");
+        exit();
+    }
+    else {
+        echo "<p class='error-message'>Erro ao deletar registro: " . mysqli_error($conexao) . "</p>";
+    }
+}
+
+function cardPerfil($conexao, $dados, string $pagina) {
+    $id_usuario = $dados['login'];
+    $nome_usuario = $dados['nome'];
+    $html = '
+    <aside class="sidebar">
+        <div class="profile-card">
+            <div class="profile-header-section">
+                <img src="./assets/perfil2.jpg" alt="Foto de perfil de'. $nome_usuario . '?>" class="profile-avatar">
+                <div class="profile-info">
+                    <h1 class="profile-name">'. $nome_usuario . '</h1>
+                    <a href="editar_perfil.php"><button class="edit-profile-button">EDITAR PERFIL</button></a>
+                    <!-- <p class="profile-bio">bio</p> -->
+                </div>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-number">'. getUsuarioTotalFilmes($conexao, $id_usuario) . '</span>
+                    <span class="stat-label">FILMES</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">'. getUsuarioFilmesEsseAno($conexao, $id_usuario) . '</span>
+                    <span class="stat-label">ESTE ANO</span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="profile-nav">
+            <ul>
+                <li><a href="perfil.php"' . ($pagina === 'perfil' ? 'class="active"' : '') . '>Perfil</a></li>
+                <li><a href="diario.php"' . ($pagina === 'diario' ? 'class="active"' : '') . '>Diário</a></li>
+                <li><a href="filmes.php"' . ($pagina === 'filmes' ? 'class="active"' : '') . '>Filmes</a></li>
+                <li><a href="reviews.php"' . ($pagina === 'reviews' ? 'class="active"' : '') . '>Reviews</a></li>
+                <li><a href="watchlist.php"' . ($pagina === 'watchlist' ? 'class="active"' : '') . '>Watchlist</a></li>
+            </ul>
+            
+        </nav>
+    </aside>';
+    return $html;
+}
 ?>

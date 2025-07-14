@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reviews do <?php echo $nome_usuario ?></title>
-    
+    <link rel="stylesheet" href="padrao.css">
     <link rel="stylesheet" href="perfil.css">
     <link rel="stylesheet" href="cabecalho.css">
     <link rel="stylesheet" href="rodape.css">
@@ -23,42 +23,7 @@
     <?php require_once 'cabecalho.php' ?>
 
     <div class="container">
-        <aside class="sidebar">
-            <div class="profile-card">
-                <div class="profile-header-section">
-                    <img src="./perfis/perfil2.jpg" alt="Foto de perfil de Ian" class="profile-avatar">
-                    <div class="profile-info">
-                        <h1 class="profile-name"><?php $dados = getUsuario($conexao, $id_usuario); echo $dados['nome'] ?></h1>
-                        <button class="edit-profile-button">EDITAR PERFIL</button>
-                        <!-- <p class="profile-bio">bio</p> -->
-                    </div>
-                </div>
-
-                <div class="profile-stats">
-                    <div class="stat-item">
-                        <span class="stat-number"><?php echo getUsuarioTotalFilmes($conexao, $id_usuario) ?></span>
-                        <span class="stat-label">FILMES</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number"><?php echo getUsuarioFilmesEsseAno($conexao, $id_usuario) ?></span>
-                        <span class="stat-label">ESTE ANO</span>
-                    </div>
-                </div>
-            </div>
-
-            <nav class="profile-nav">
-                <ul>
-                    <li><a href="perfil.php">Perfil</a></li>
-                    <li><a href="diario.php">Diário</a></li>
-                    <li><a href="filmes.php">Filmes</a></li>
-                    <li><a href="reviews.php" class="active">Reviews</a></li>
-                    <li><a href="watchlist.php">Watchlist</a></li>
-                </ul>
-                <div class="search-profile">
-                    <i class="fas fa-search"></i>
-                </div>
-            </nav>
-        </aside>
+        <?php echo cardPerfil($conexao, $dados_usuario, "reviews") ?>
 
         <main class="main-content">
             <section class="recent-reviews-section">
@@ -78,18 +43,21 @@
                             $ano = $filme['ano'];
                             $poster = $filme['poster'];
                             $review = $registro['review'];
+                            $id_filme = $registro['id_filme'];
                             $data = formatarDataRegistro($registro['data_regis']);
                             $estrelas = getEstrelas((int)$registro['nota']);
-                            $like = temGostei($registro['curtido']);
+                            $curtida = getCurtida($registro['curtido']);
 
                             echo "<div class='review-entry'>";
-                            echo "<img src='https://image.tmdb.org/t/p/w92$poster' alt='$titulo Poster' class='review-movie-poster'>";
+                            echo "<a href='filme.php?id=$id_filme'><img src='https://image.tmdb.org/t/p/w92$poster' alt='$titulo Poster' class='review-movie-poster'></a>";
                             echo
                             "<div class='review-content'>
-                                <h3 class='review-movie-title'>$titulo <span class='movie-year'>$ano</span></h3>
+                                <a href='filme.php?id=$id_filme'><h3 class='review-movie-title'>$titulo <span class='movie-year'>$ano</span></h3></a>
                                 <p class='review-watched-info'>
                                     $estrelas
-                                    $like
+                                    $curtida
+                                </p>
+                                <p class='review-watched-info'>
                                     Assistido $data
                                 </p>
                                 <p class='review-text'>$review</p>

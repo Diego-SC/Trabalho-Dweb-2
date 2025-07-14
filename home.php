@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TelaCrítica - Home</title>
+    <link rel="stylesheet" href="padrao.css">
     <link rel="stylesheet" href="perfil.css">
     <link rel="stylesheet" href="cabecalho.css">
     <link rel="stylesheet" href="rodape.css">
@@ -24,7 +25,7 @@
 
     <main class="home-container">
         <div class="welcome-message">
-            <p>Bem-vindo de volta, <span><?php echo htmlspecialchars($nome_usuario); ?></span>. Veja o que andam assistindo...</p>
+            <p>Bem-vindo de volta, <a href="perfil.php"><?php echo htmlspecialchars($nome_usuario); ?></a>. Veja o que andam assistindo...</p>
         </div>
 
         <section class="film-section">
@@ -58,7 +59,7 @@
 
             <div class="film-grid">
             <?php
-                $filmes_populares = getFilmesPopulares(7);
+                $filmes_populares = getFilmesPopulares(3);
 
                 foreach ($filmes_populares as $index => $id_filme) {
                     $filme = getFilme($conexao, $id_filme);
@@ -67,7 +68,30 @@
 
                     echo "
                     <div class='activity-card'>
-                        <a href='filme.php' class='activity-card'>
+                        <a href='filme.php?id=$id_filme' class='activity-card'>
+                            <img src='https://image.tmdb.org/t/p/w500$poster' alt='$titulo Poster'>
+                        </a>
+                    </div>";
+                }
+            ?>
+            </div>
+
+            <div class="section-header">
+                <p>FILMES POPULARES</p>
+            </div>
+
+            <div class="film-grid">
+            <?php
+                $filmes_populares = getFilmesPopulares(2);
+
+                foreach ($filmes_populares as $index => $id_filme) {
+                    $filme = getFilme($conexao, $id_filme);
+                    $poster = $filme['poster'];
+                    $titulo = $filme['titulo'];
+
+                    echo "
+                    <div class='activity-card'>
+                        <a href='filme.php?id=$id_filme' class='activity-card'>
                             <img src='https://image.tmdb.org/t/p/w500$poster' alt='$titulo Poster'>
                         </a>
                     </div>";

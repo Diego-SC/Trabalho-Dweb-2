@@ -2,7 +2,7 @@
 Um projeto para a matéria de Desenvolvimento Web 2
 
 Paleta
-- Amarelo: #F0C808
+- Amarelo: var(--star-color)
 - Vermelho: #DD1C1A
 - Azul: #086788
 

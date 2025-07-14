@@ -1,27 +1,9 @@
-/* Variáveis de cores (importadas dos seus arquivos existentes) */
-:root {
-    --dark-bg: #14181c; /* Fundo principal */
-    --darker-bg: #1c2128; /* Fundo do container */
-    --text-color: #e0e6eb; /* Cor do texto principal */
-    --light-text-color: #8c98a3; /* Texto secundário/inativo */
-    --red-brand: #DD1C1A;
-    --green-brand: #00e067;
-    --star-color: #F0C808;
-    --border-color: #2e353e;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    width: 100%;
-}
-
 /* -------------------- Main Movie Page Container -------------------- */
 .movie-page-container {
     max-width: 1200px;
     margin: 30px auto;
     padding: 0 20px;
+    height: 70vh;
 }
 
 /* -------------------- Movie Header Section -------------------- */
@@ -147,10 +129,10 @@ body {
     font-size: 16px;
     font-weight: 500;
     display: flex;
+    height: 100%;
     align-items: center;
     gap: 8px;
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    cursor: pointer; /* Adiciona cursor de ponteiro */
 }
 
 .action-button:hover {
@@ -160,8 +142,8 @@ body {
 
 /* Estilos para botões de ação "selecionados" */
 .action-button.active {
-    background-color: var(--green-brand);
-    border-color: var(--green-brand);
+    background-color: var(--button-green);
+    border-color: var(--button-green);
     color: var(--darker-bg); /* Texto mais escuro para contraste no verde */
     font-weight: 600;
 }
@@ -174,29 +156,31 @@ body {
 
 .your-rating {
     font-size: 16px;
-    color: var(--light-text-color);
     font-weight: 500;
 }
 
-.star-rating i.far {
+.star-rating {
+    display: inline-flex;
+    gap: 2px;
+}
+
+.star-rating i {
     font-size: 24px;
-    color: var(--star-color); /* Estrelas vazias coloridas */
-    cursor: pointer;
+    color: var(--star-color);
     transition: transform 0.1s ease;
 }
 
-.star-rating i.far:hover {
+.star-rating i:hover {
     transform: scale(1.1);
 }
 
-/* Novo botão para Review/Log */
 .review-log-button {
     background-color: var(--darker-bg);
     border: 1px solid var(--border-color);
     color: var(--light-text-color);
     padding: 10px 20px;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -276,6 +260,11 @@ body {
     font-weight: 600;
 }
 
+.review-stars {
+    display: inline-flex;
+    gap: 4px;
+    margin-bottom: 16px;
+}
 .review-stars i {
     color: var(--star-color);
     font-size: 14px;
@@ -288,6 +277,14 @@ body {
     line-height: 1.5;
     margin-bottom: 10px;
 }
+
+.watched {
+    cursor: unset;
+}
+.watched.active:hover {
+    background-color: var(--button-green);
+}
+
 
 /* -------------------- Responsividade -------------------- */
 @media (max-width: 992px) {
@@ -382,7 +379,7 @@ body {
         font-size: 13px;
     }
 
-    .star-rating i.far {
+    .star-rating i {
         font-size: 20px;
     }
 }

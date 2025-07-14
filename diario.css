@@ -1,0 +1,104 @@
+@media (min-width: 992px) {
+    .container {
+        grid-template-columns: unset; /* Main content e sidebar na desktop */
+        gap: 40px;
+    }
+}
+
+.diary-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.diary-table th, .diary-table td{
+    padding: 12px;
+}
+.diary-table th, .diary-table td {
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+.diary-table th {
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--light-text-color);
+    text-transform: uppercase;
+}
+.diary-table .poster {
+    width: 40px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+th {
+    text-align: center;
+}
+.diary-table .rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.diary-table .rating i {
+    color: var(--star-color);
+    margin-right: -2px;
+}
+.diary-table .heart {
+    color: #888;
+}
+.diary-table .heart.liked {
+    color: orange;
+}
+.diary-table .rewatch i {
+    color: orange;
+}
+.diary-table .review i {
+    color: var(--text-color);
+}
+.diary-table .edit i {
+    color: var(--light-text-color);
+}
+.diary-table .edit i:hover {
+    color: var(--text-color);
+    scale: 1.05;
+}
+.date {
+    display: grid;
+    justify-content: center;
+}
+.year {
+    font-size: 12px;
+    font-weight: 300;
+    text-align: center;
+    color: var(--light-text-color);
+}
+.month {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-color);
+    text-transform: uppercase;
+}
+.day {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+.left {
+    text-align: left;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.movie-container a {
+    color: var(--text-color);
+}
+.movie-container a:hover {
+    text-decoration: underline;
+}
+.movie-container {
+    display: grid;
+    grid-template-columns: min-content auto;
+    align-items: center;
+    gap: 12px;
+}

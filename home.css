@@ -1,16 +1,3 @@
-/* Variáveis de cores importadas de outros arquivos CSS */
-:root {
-    --dark-bg: #14181c;
-    --darker-bg: #1c2128;
-    --text-color: #e0e6eb;
-    --light-text-color: #8c98a3;
-    --red-brand: #DD1C1A;
-    --green-brand: #00e067;
-    --star-color: #F0C808;
-    --border-color: #2e353e;
-}
-
-/* -------------------- Main Content Container -------------------- */
 .home-container {
     max-width: 1200px;
     margin: 30px auto;
