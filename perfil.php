@@ -23,40 +23,33 @@
     <?php require_once 'cabecalho.php' ?>
     
     <div class="container">
-        <?php echo cardPerfil($conexao, $dados_usuario, "perfil") ?>
+        <?php echo cardPerfil($conexao, $usuario, "perfil") ?>
 
         <main class="main-content">
             <section class="favorite-films-section">
                 <h2>FILMES FAVORITOS</h2>
                 <?php
-                    $sql = "SELECT * FROM Filme_Registro 
-                            WHERE id_usuario = '$id_usuario' 
-                            ORDER BY data_regis DESC 
-                            LIMIT 4";
+                    $sql = "SELECT * FROM Filme_Favorito 
+                            WHERE id_usuario = '$id_usuario' LIMIT 4";
 
                     $resultado = mysqli_query($conexao, $sql);
 
                     echo "<div class='movie-grid'>";
                     if (mysqli_num_rows($resultado) > 0) {
                         
-                        while ($registro = mysqli_fetch_assoc($resultado)) {
-                            $filme = getFilme($conexao, $registro['id_filme']);
-                            $id_filme = $registro['id_filme'];
+                        while ($favorito = mysqli_fetch_assoc($resultado)) {
+                            $filme = getFilme($conexao, $favorito['id_filme']);
+                            $id_filme = $favorito['id_filme'];
                             $titulo = $filme['titulo'];
                             $poster = $filme['poster'];
-                            $estrelas = getEstrelas((int)$registro['nota']);
-                            $curtida = getCurtida($registro['curtido']);
 
                             echo "<a href='filme.php?id=$id_filme'><div class='movie-card'>";
                             echo "<img src='https://image.tmdb.org/t/p/w500$poster' alt='$titulo Poster'>";
-                            echo "<div class='film-rating'>
-                                $estrelas
-                                $curtida
-                            </div>";
                             echo "</div></a>";
                         }
-                    } else {
-                        echo "Usuário não possui filmes registrados.";
+                    }
+                    else {
+                        echo "Usuário não possui filmes favoritos.";
                     }
                     echo "</div>";
                 ?>
@@ -92,7 +85,8 @@
                             </div>";
                             echo "</div></a>";
                         }
-                    } else {
+                    }
+                    else {
                         echo "Usuário não possui filmes registrados.";
                     }
                     echo "</div>";
@@ -141,7 +135,8 @@
                             </div>";
                             echo "</div>";
                         }
-                    } else {
+                    }
+                    else {
                         echo "Usuário não possui filmes registrados.";
                     }
                 ?>
@@ -155,7 +150,7 @@
                 <div class="watchlist-grid">
                     <?php
                         $sql = "SELECT * FROM Watchlist 
-                                WHERE id_usuario = '$id_usuario' LIMIT 9";
+                                WHERE id_usuario = '$id_usuario' LIMIT 6";
                         $resultado = mysqli_query($conexao, $sql);
 
                         if (mysqli_num_rows($resultado) > 0) {
@@ -174,59 +169,50 @@
             </section>
 
             <section class="diary-section">
-                <h2>DIARY <span class="diary-count">131</span></h2>
+                <h2><a href="diario.php">DIÁRIO</a></h2>
                 <div class="diary-entries">
-                    <div class="diary-entry">
-                        <div class="entry-date">
-                            <span class="month">JUN</span>
-                            <span class="day">15</span>
-                        </div>
-                        <div class="entry-details">
-                            <p class="movie-title">The Babadook</p>
-                            <img src="https://image.tmdb.org/t/p/w92/5fS8J92o1yVzGg6x40qP6kIq7YQ.jpg" alt="The Babadook Poster" class="diary-movie-poster">
-                            <div class="entry-rating">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="diary-entry">
-                        <div class="entry-date">
-                            <span class="month">JUN</span>
-                            <span class="day">7</span>
-                        </div>
-                        <div class="entry-details">
-                            <p class="movie-title">Predator: Killer Killers</p>
-                            <img src="https://image.tmdb.org/t/p/w92/sY9NfT1fPz4SjH0qN6vV9N6j5Hk.jpg" alt="Predator: Killer Killers Poster" class="diary-movie-poster">
-                            <div class="entry-rating">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="diary-entry">
-                        <div class="entry-date">
-                            <span class="month">MAY</span>
-                            <span class="day">24</span>
-                        </div>
-                        <div class="entry-details">
-                            <p class="movie-title">Sound of Metal</p>
-                            <img src="https://image.tmdb.org/t/p/w92/y6C7y2oD6fM7n9Y2vKj81g0h2mJ.jpg" alt="Sound of Metal Poster" class="diary-movie-poster">
-                            <div class="entry-rating">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="diary-entry">
-                        <div class="entry-date">
-                            <span class="month">MAY</span>
-                            <span class="day">11</span>
-                        </div>
-                        <div class="entry-details">
-                            <p class="movie-title">Memories</p>
-                            <img src="https://image.tmdb.org/t/p/w92/r5s5b0j6Yt4qR05kH7X9Wz5c9l.jpg" alt="Memories Poster" class="diary-movie-poster">
-                            <div class="entry-rating">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
+                    <?php
+                    $sql = "SELECT * FROM Filme_Registro 
+                            WHERE id_usuario = '$id_usuario' 
+                            ORDER BY data_regis DESC
+                            LIMIT 4";
+
+                    $res = mysqli_query($conexao, $sql);
+                    if (mysqli_num_rows($res) > 0) {
+                        while ($registro = mysqli_fetch_assoc($res)) {
+                            $id_filme = $registro['id_filme'];
+                            $filme = getFilme($conexao, $id_filme);
+                            $titulo = $filme['titulo'];
+                            $poster = $filme['poster'];
+                            $ano_filme = $filme['ano'];
+
+                            $partes = explode('-', $registro['data_regis']);
+                            $mes = (int)$partes[1];
+                            $dia = (int)$partes[2];
+                            $mes_abrev = numeroParaMesAbreviado($mes);
+
+                            $estrelas = getEstrelas($registro['nota']);
+                            $curtida = getCurtida($registro['curtido']);
+                            echo '<div class="diary-entry">';
+                            echo "
+                            <div class='entry-date'>
+                                <span class='month'>$mes_abrev</span>
+                                <span class='day'>$dia</span>
+                            </div>";
+                            echo "
+                            <div class='entry-details'>
+                                <p class='movie-title'><a href='filme.php?id=$id_filme'>$titulo</a></p>
+                                <img src='https://image.tmdb.org/t/p/w92$poster' alt='$titulo Poster' class='diary-movie-poster'>
+                                <div class='entry-rating'>
+                                    $estrelas
+                                    $curtida
+                                </div>
+                            </div>";
+                            echo '</div>';
+
+                        }
+                    }
+                    ?>
                     </div>
                 </div>
             </section>

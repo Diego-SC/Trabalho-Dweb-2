@@ -138,7 +138,13 @@ textarea:focus {
     border-color: var(--red-brand);
 }
 
-.like-button {
+.rating-btns {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+}
+
+.like-button, .favorito-button {
     background: none;
     border: none;
     color: var(--light-text-color); /* Default grey for heart */
@@ -151,6 +157,11 @@ textarea:focus {
 .like-button.active,
 .like-button:hover {
     color: var(--red-brand); /* Red for liked heart, using red-brand variable */
+}
+
+.favorito-button.active,
+.favorito-button:hover {
+    color: var(--accent-color); /* Red for liked heart, using red-brand variable */
 }
 
 .save-button-container {

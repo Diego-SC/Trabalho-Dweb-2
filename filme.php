@@ -16,7 +16,6 @@
     $sinopse = $filme['sinopse'];
     $ano = $filme['ano'];
 
-
     // Registro
     $sql = "SELECT * FROM Filme_Registro WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
     $resultado = mysqli_query($conexao, $sql);
@@ -124,16 +123,17 @@
         <?php
             if ($assistido && $review != "") {
                 $data_formatada = formatarDataRegistro($data);
+                $foto_perfil = $usuario['foto_perfil'];
                 echo "<section class='reviews-from-friends-section'>
                     <div class='section-header-film'>
                         <p>SUA REVIEW</p>
                     </div>
                     <div class='review-entry-film'>
-                        <img src='./assets/perfil2.jpg' alt='Avatar do $nome_usuario' class='reviewer-avatar'>
+                        <img src='$foto_perfil' alt='Avatar do $nome_usuario' class='reviewer-avatar'>
                         <div class='review-content-film'>
                             <p class='reviewer-info'>Review por <span class='reviewer-name'>$nome_usuario</span>
                             em $data_formatada</p>
-                            <span class='review-stars'>".getEstrelas($nota)."</span>
+                            <span class='review-stars'>".getEstrelas($nota) . getCurtida($curtido)."</span>
                             <p class='review-text-film'>$review</p>
                         </div>
                     </div>

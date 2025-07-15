@@ -23,7 +23,7 @@
     <?php require_once 'cabecalho.php' ?>
 
     <div class="container">
-        <?php echo cardPerfil($conexao, $dados_usuario, "watchlist") ?>
+        <?php echo cardPerfil($conexao, $usuario, "watchlist") ?>
 
         <main class="main-content">
             <div class="watched-film-grid">
@@ -43,7 +43,8 @@
                         </div>
                         <?php
                     }
-                } else {
+                }
+                else {
                     echo "<p>Nenhum filme na Watchlist.</p>";
                 }
                 ?>

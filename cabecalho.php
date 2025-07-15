@@ -4,7 +4,7 @@
 ?>
 <header class="main-header">
     <div class="logo">
-        <a href="home.php"><img class="logo" src="./assets/logo.png" alt="TelaCritica Logo"></a>
+        <a href="home.php"><img class="logo" src="./imagens/logo.png" alt="TelaCritica Logo"></a>
     </div>
     <nav class="main-nav">
         <ul>

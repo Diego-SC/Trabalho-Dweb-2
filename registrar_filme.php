@@ -17,18 +17,25 @@
     $review = "";
     $nota = 0.0;
     $curtido = 0;
+    $favorito = false;
     $assistido = false;
-
    
     $sql_check = "SELECT * FROM Filme_Registro WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
     $result_check = mysqli_query($conexao, $sql_check);
-
+    
     if (mysqli_num_rows($result_check) > 0) {
         $registro_existente = mysqli_fetch_assoc($result_check);
         $review = $registro_existente['review'];
         $nota = $registro_existente['nota'] / 2;
         $curtido = $registro_existente['curtido'];
         $assistido = true;
+        
+        // Favorito
+        $sql = "SELECT * FROM Filme_Favorito WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+        $res = mysqli_query($conexao, $sql);
+        if (mysqli_num_rows($res) > 0) {
+            $favorito = true;
+        }
     }
    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -36,13 +43,39 @@
             deletarRegistro($conexao, $id_usuario, $id_filme);
         }
         else {
-
             $review_post = filter_var($_POST['review'], FILTER_SANITIZE_SPECIAL_CHARS);
         
             $nota_post = isset($_POST['nota']) ? (float)filter_var($_POST['nota'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : 0;
             $nota_post = $nota_post * 2;
 
             $curtido_post = $_POST['curtido'];
+            $favorito_post = $_POST['favorito'];
+            
+            // Arrumar
+            if ($curtido_post == 0 && empty($review_post) && $nota_post == 0) {
+                header("Location: filme.php?id=$id_filme");
+            }
+            if ($favorito_post) {
+                $sql_cnt = "SELECT COUNT(*) as total FROM Filme_Favorito WHERE id_usuario = '$id_usuario'";
+                $res = mysqli_query($conexao,  $sql_cnt);
+                $cnt = mysqli_fetch_assoc($res)['total'];
+                if ($cnt >= 4) {
+                    echo "<p class='error-message'>Limite de 4 filmes favoritos atingido. Caso deseje adicionar esse filme como favorito é necessário remover um filme dos favoritos.</p>";
+                }
+                else {
+                    $sql_insert = "INSERT INTO Filme_Favorito (id_usuario, id_filme) VALUES ('$id_usuario', '$id_filme')";
+                    if (mysqli_query($conexao, $sql_insert)) {
+                        $favorito = $favorito_post;
+                        echo "<p class='success-message'>Filme favorito adicionado com sucesso!</p>";
+                    }
+                }
+            }
+            else {
+                $sql_del = "DELETE FROM Filme_Favorito WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+                mysqli_query($conexao, $sql_del);
+                echo "<p class='success-message'>Filme favorito removido com sucesso!</p>";
+            }
+
             if ($assistido) {
                 $sql_update = "UPDATE Filme_Registro SET review = '$review_post', nota = '$nota_post', curtido = '$curtido_post', data_regis = NOW() WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
                 if (mysqli_query($conexao, $sql_update)) {
@@ -83,9 +116,10 @@
                     echo "<p class='error-message'>Erro ao adicionar registro: " . mysqli_error($conexao) . "</p>";
                 }
             }
+
+            
         }
     }
-
     mysqli_close($conexao);
 ?>
 
@@ -140,10 +174,18 @@
                                     <?php endfor; ?>
                                 </select>
                             </div>
-                            <button type="button" class="like-button <?php echo ($curtido == 1) ? 'active' : ''; ?>" id="likeToggle">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                            <input type="hidden" name="curtido" id="curtidoInput" value="<?php echo $curtido; ?>">
+
+                            <div class="rating-btns">
+                                <button type="button" class="favorito-button <?php echo ($favorito == 1) ? 'active' : ''; ?>" id="favoritoToggle">
+                                    <i class="fa-solid fa-bookmark"></i>
+                                </button>
+                                <input type="hidden" name="favorito" id="favoritoInput" value="<?php echo $favorito; ?>">
+                                
+                                <button type="button" class="like-button <?php echo ($curtido == 1) ? 'active' : ''; ?>" id="likeToggle">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <input type="hidden" name="curtido" id="curtidoInput" value="<?php echo $curtido; ?>">
+                            </div>
                         </div>
 
                         <div class="save-button-container">
@@ -170,9 +212,27 @@
                 if (currentStatus === 1) {
                     curtidoInput.value = 0;
                     likeButton.classList.remove('active');
-                } else {
+                }
+                else {
                     curtidoInput.value = 1;
                     likeButton.classList.add('active');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const favoritoButton = document.getElementById('favoritoToggle');
+            const favoritoInput = document.getElementById('favoritoInput');
+
+            favoritoButton.addEventListener('click', function() {
+                const currentStatus = parseInt(favoritoInput.value);
+                if (currentStatus === 1) {
+                    favoritoInput.value = 0;
+                    favoritoButton.classList.remove('active');
+                }
+                else {
+                    favoritoInput.value = 1;
+                    favoritoButton.classList.add('active');
                 }
             });
         });

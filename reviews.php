@@ -23,7 +23,7 @@
     <?php require_once 'cabecalho.php' ?>
 
     <div class="container">
-        <?php echo cardPerfil($conexao, $dados_usuario, "reviews") ?>
+        <?php echo cardPerfil($conexao, $usuario, "reviews") ?>
 
         <main class="main-content">
             <section class="recent-reviews-section">
@@ -64,7 +64,8 @@
                             </div>";
                             echo "</div>";
                         }
-                    } else {
+                    }
+                    else {
                         echo "Usuário não possui filmes registrados.";
                     }
                 ?>

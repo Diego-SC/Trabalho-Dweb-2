@@ -2,11 +2,15 @@
 .edit-profile-container {
     max-width: 900px;
     margin: 40px auto;
-    padding: 30px;
+    padding: 30px 50px;
     background-color: var(--darker-bg);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     border: 1px solid var(--border-color);
+}
+
+section {
+    margin: 0;
 }
 
 .edit-profile-container h2 {
@@ -18,21 +22,58 @@
     font-weight: 600;
 }
 
-.profile-settings-form {
-    display: flex;
-    flex-wrap: wrap; /* Permite que as seções se ajustem */
-    gap: 40px 60px; /* Espaçamento entre as seções */
+/* Estilos para o botão Voltar */
+.back-button {
+    display: inline-flex; /* Para alinhar o ícone e o texto */
+    align-items: center;
+    gap: 8px; /* Espaçamento entre o ícone e o texto */
+    color: var(--light-text-color); /* Cor do texto padrão, ajuste conforme suas variáveis */
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.profile-info-section,
-.favorite-films-edit-section,
-.profile-avatar-section {
-    flex: 1 1 calc(50% - 30px); /* Duas colunas em telas maiores, ou uma coluna em telas menores */
-    min-width: 300px; /* Garante que a coluna não fique muito estreita */
+.back-button:hover {
+    color: var(--text-color); /* Cor do texto ao passar o mouse */
+    background-color: var(--input-bg); /* Fundo sutil ao passar o mouse */
+}
+
+.back-button i {
+    font-size: 18px; /* Tamanho do ícone */
+}
+
+/* Para alinhar o botão e o título se desejar */
+.header-with-back-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.header-with-back-button h2 {
+    margin: 0; /* Remove margem padrão para melhor alinhamento */
+    padding-bottom: 0; /* Remove padding-bottom, já que o border-bottom está na div pai */
+    border-bottom: none; /* Remove a borda do h2, que agora está na div pai */
+}
+
+.profile-settings-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.profile-info-section {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 40px;
 }
 
 .profile-info-section h3,
-.favorite-films-edit-section h3,
 .profile-avatar-section h3 {
     font-size: 22px;
     color: var(--text-color);
@@ -56,6 +97,7 @@
 }
 
 .form-group input[type="text"],
+.form-group input[type="password"],
 .form-group input[type="email"],
 .form-group textarea {
     width: 100%;
@@ -69,9 +111,10 @@
 }
 
 .form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
 .form-group input[type="email"]:focus,
 .form-group textarea:focus {
-    border-color: var(--accent-blue);
+    border-color: var(--accent-color);
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.2);
 }
@@ -96,12 +139,7 @@
     position: absolute;
     right: 15px;
     color: var(--light-text-color);
-    cursor: pointer;
     transition: color 0.2s ease;
-}
-
-.input-with-icon .edit-icon:hover {
-    color: var(--text-color);
 }
 
 /* Campo de login 'readonly' */
@@ -109,22 +147,6 @@ input[readonly] {
     background-color: #222930; /* Um pouco mais escuro para indicar que é readonly */
     opacity: 0.7;
     cursor: not-allowed;
-}
-
-/* Layout de duas colunas para Given Name e Alterar Senha */
-.form-group.two-columns {
-    display: grid;
-    grid-template-columns: 1fr auto; /* Ocupa a largura, botão se autoajusta */
-    align-items: end;
-    gap: 15px; /* Espaçamento entre os campos */
-}
-
-.form-group.two-columns label {
-    grid-column: 1 / -1; /* Ocupa toda a largura acima dos inputs */
-}
-
-.form-group.two-columns input {
-    grid-column: 1 / 2;
 }
 
 .password-reset {
@@ -143,84 +165,16 @@ input[readonly] {
     color: var(--text-color);
 }
 
-
-/* Seção de Filmes Favoritos */
-.favorite-films-edit-section .section-description {
-    font-size: 14px;
-    color: var(--light-text-color);
-    margin-bottom: 20px;
+.messages {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-inline: auto;
 }
-
-.favorite-films-selection {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 colunas para filmes */
-    gap: 15px;
+.success {
+    color: #388e3c;
 }
-
-.film-selection-card {
-    position: relative;
-    background-color: var(--alt-dark-bg);
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    padding-bottom: 150%; /* Proporção de pôster 2:3 */
-    height: 0; /* Para usar padding-bottom como altura */
-    cursor: grab; /* Indica que pode ser arrastado */
-}
-
-.film-selection-card img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.film-selection-card .remove-film-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: 50%;
-    color: var(--light-text-color);
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    opacity: 0; /* Esconde por padrão */
-    transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-    z-index: 10;
-}
-
-.film-selection-card:hover .remove-film-btn {
-    opacity: 1; /* Mostra no hover */
-}
-
-.film-selection-card .remove-film-btn:hover {
-    background-color: #dc3545; /* Cor de erro ao remover */
-    color: #fff;
-}
-
-.film-selection-card.add-film-slot {
-    background-color: var(--alt-dark-bg);
-    display: grid;
-    align-items: center;
-    justify-content: center;
-    border: 1px dashed var(--border-color);
-}
-
-.film-selection-card.add-film-slot .add-film-btn {
-    color: var(--light-text-color);
-    font-size: 30px;
-    transition: color 0.2s ease;
-}
-
-.film-selection-card.add-film-slot .add-film-btn:hover {
-    color: var(--accent-green);
+.error {
+    color: red;
 }
 
 /* Seção de Foto de Perfil */
@@ -266,13 +220,19 @@ input[readonly] {
 }
 
 .avatar-option.selected {
-    border-color: var(--accent-green); /* Borda verde para o avatar selecionado */
+    border-color: var(--text-color);
+}
+.avatar-option.current {
+    border-color: var(--accent-color); /* Borda verde para o avatar selecionado */
 }
 
-.avatar-option:hover:not(.selected) {
+.avatar-option:hover:not(.current) {
     border-color: var(--light-text-color);
 }
 
+.profile-avatar-section {
+    width: 100%;
+}
 .profile-avatar-section .small-text {
     font-size: 13px;
     color: var(--light-text-color);
@@ -296,10 +256,9 @@ input[readonly] {
     border-color: var(--text-color);
 }
 
-
 /* Botão Salvar Alterações */
 .save-changes-button {
-    background-color: var(--accent-green);
+    background-color: var(--accent-color);
     color: #fff;
     padding: 15px 30px;
     border-radius: 8px;
@@ -307,8 +266,8 @@ input[readonly] {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    width: 100%; /* Ocupa a largura total */
-    margin-top: 40px;
+    width: 100%;
+    margin-top: 20px;
     transition: background-color 0.2s ease;
 }
 
@@ -327,14 +286,6 @@ input[readonly] {
         flex-direction: column; /* Pilha as seções em telas menores */
         gap: 30px;
     }
-
-    .profile-info-section,
-    .favorite-films-edit-section,
-    .profile-avatar-section {
-        flex: 1 1 100%; /* Ocupa a largura total */
-        min-width: unset; /* Remove largura mínima */
-    }
-
     .form-group.two-columns {
         grid-template-columns: 1fr; /* Volta para uma coluna */
         gap: 10px;
@@ -347,11 +298,6 @@ input[readonly] {
     .password-reset {
         grid-column: 1 / -1; /* Ocupa toda a largura */
         text-align: left;
-    }
-
-    .favorite-films-selection {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Mais flexível em telas menores */
-        gap: 10px;
     }
 
     .profile-avatar-section .avatar-selection-grid {
@@ -367,7 +313,6 @@ input[readonly] {
     }
 
     .profile-info-section h3,
-    .favorite-films-edit-section h3,
     .profile-avatar-section h3 {
         font-size: 20px;
         margin-bottom: 15px;

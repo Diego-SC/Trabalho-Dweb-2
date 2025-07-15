@@ -77,7 +77,7 @@
             </div>
 
             <div class="section-header">
-                <p>FILMES POPULARES</p>
+                <p>MAIS FILMES</p>
             </div>
 
             <div class="film-grid">

@@ -36,18 +36,21 @@
             $mensagem_erro = "Erro cURL: " . $err;
         } elseif ($http_code !== 200) {
             $mensagem_erro = "Erro ao conectar com a API do TMDB. Código HTTP: {$http_code}.";
-        } else {
+        }
+        else {
             $data = json_decode($response, true);
             if (isset($data['results'])) {
                 $resultados = $data['results'];
                 if (empty($resultados)) {
                     $mensagem_erro = "Nenhum resultado encontrado para '{$query}'.";
                 }
-            } else {
+            }
+            else {
                 $mensagem_erro = "Resposta inválida da API do TMDB.";
             }
         }
-    } else {
+    }
+    else {
         $mensagem_erro = "Por favor, digite um termo para pesquisar.";
     }
 ?>

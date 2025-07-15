@@ -128,7 +128,8 @@ function inserirFilmeNoBanco($conexao, string $id_filme): void {
 
     if ($err) {
         debug_to_console("cURL Error #:" . $err);
-    } else {
+    }
+    else {
         $info = json_decode($response, true);
     
         if (json_last_error() === JSON_ERROR_NONE) {
@@ -182,7 +183,8 @@ function inserirFilmeNoBanco($conexao, string $id_filme): void {
         
         if (!$resultado) {
             debug_to_console("Error inserting movie id = : " . $id_filme . "<br>" . mysqli_error($conexao));
-        } else {
+        }
+        else {
             debug_to_console("Filme $titulo (id=$id_filme) adicionado ao Banco de Dados.");
         }
     }
@@ -305,27 +307,6 @@ function getUsuarioFilmesEsseAno($conexao, string $id_usuario): int {
     }
     
     return 0; // Return 0 if there's an error or no results
-}
-
-/*
-    Pegar lista de filmes favoritos do usuário
-    Parâmetros: ($conexao, id_usuario)
-    Retorno: Array com os filmes favoritos do usuário
-*/
-function getFilmesFavoritos($conexao, string $id_usuario): array {
-    $id_usuario = mysqli_real_escape_string($conexao, $id_usuario);
-    
-    $arr = [];
-    $sql = "SELECT id_filme FROM Filme_Favorito WHERE id_usuario = '$id_usuario'";
-    $res = mysqli_query($conexao, $sql);
-    
-    if ($res && mysqli_num_rows($res) > 0) {
-        while ($row = mysqli_fetch_assoc($res)) {
-            $arr[] = $row['id_filme']; // Cast to integer
-        }
-    }
-    
-    return $arr;
 }
 
 /*
@@ -469,11 +450,13 @@ function getUsuarioTotalWatchlist($conexao, string $id_usuario): int {
     return 0; // Return 0 if there's an error or no results
 }
 
-
 function deletarRegistro($conexao, $id_usuario, $id_filme) {
     $sql_delete = "DELETE FROM Filme_Registro WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
-
+    
     if (mysqli_query($conexao, $sql_delete)) {
+        $sql = "DELETE FROM Filme_Favorito WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+        mysqli_query($conexao, $sql);
+
         header("Location: filme.php?id=$id_filme");
         exit();
     }
@@ -489,7 +472,7 @@ function cardPerfil($conexao, $dados, string $pagina) {
     <aside class="sidebar">
         <div class="profile-card">
             <div class="profile-header-section">
-                <img src="./assets/perfil2.jpg" alt="Foto de perfil de'. $nome_usuario . '?>" class="profile-avatar">
+                <img src="'. $dados['foto_perfil'] .'" alt="Foto de perfil de'. $nome_usuario . '?>" class="profile-avatar">
                 <div class="profile-info">
                     <h1 class="profile-name">'. $nome_usuario . '</h1>
                     <a href="editar_perfil.php"><button class="edit-profile-button">EDITAR PERFIL</button></a>

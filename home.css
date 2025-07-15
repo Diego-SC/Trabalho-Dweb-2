@@ -11,9 +11,12 @@
     margin-bottom: 30px;
 }
 
-.welcome-message span {
+.welcome-message a {
     color: var(--text-color);
     font-weight: 600;
+}
+.welcome-message a:hover {
+    text-decoration: underline;
 }
 
 /* -------------------- Friends Activity Section -------------------- */

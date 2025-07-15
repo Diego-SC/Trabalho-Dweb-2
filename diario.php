@@ -24,7 +24,7 @@
     <?php require_once 'cabecalho.php'; // Inclui o cabeçalho ?>
 
     <main class="container">
-        <?php echo cardPerfil($conexao, $dados_usuario, "diario") ?>
+        <?php echo cardPerfil($conexao, $usuario, "diario") ?>
         
         <main class="main-content">
             <table class="diary-table">

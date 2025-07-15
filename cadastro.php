@@ -40,15 +40,16 @@
         }
         if (empty($erros)) {
             $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-
-            $sql_insert = "INSERT INTO Usuario (login, nome, email, senha) VALUES ('$usuario', '$usuario', '$email', '$senha_hash')";
+            $foto_perfil = 'imagens/perfil0.jpg';
+            $sql_insert = "INSERT INTO Usuario (login, nome, email, senha, foto_perfil) VALUES ('$usuario', '$usuario', '$email', '$senha_hash', '$foto_perfil')";
             if (mysqli_query($conexao, $sql_insert)) {
                 $_SESSION['logado'] = true;
                 $_SESSION['id_usuario'] = $usuario;
                 $_SESSION['nome_usuario'] = $usuario;
                 header('Location: home.php');
                 exit();
-            } else {
+            }
+            else {
                 $erros[] = "<li>Erro ao cadastrar usuário: " . mysqli_error($conexao) . "</li>";
             }
         }

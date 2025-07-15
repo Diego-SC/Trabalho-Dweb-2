@@ -23,7 +23,7 @@
     <?php require_once 'cabecalho.php' ?>
 
     <div class="container">
-        <?php echo cardPerfil($conexao, $dados_usuario, "filmes") ?>
+        <?php echo cardPerfil($conexao, $usuario, "filmes") ?>
 
         <main class="main-content">
                 <?php
@@ -53,7 +53,8 @@
                             </div>";
                             echo "</div></a>";
                         }
-                    } else {
+                    }
+                    else {
                         echo "Usuário não possui filmes registrados.";
                     }
                     echo "</div>";

@@ -6,6 +6,6 @@
     }
 
     $id_usuario = $_SESSION['id_usuario'];
-    $dados_usuario = getUsuario($conexao, $id_usuario);
-    $nome_usuario = $dados_usuario['nome'];
+    $usuario = getUsuario($conexao, $id_usuario);
+    $nome_usuario = $usuario['nome'];
 ?>
