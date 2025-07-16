@@ -27,10 +27,10 @@
 
         <main class="main-content">
                 <?php
-                // Query para obter todos os filmes assistidos pelo usuário
+                // Registros ordenados pelos mais recente
                 $sql = "SELECT * FROM Filme_Registro 
                         WHERE id_usuario = '$id_usuario' 
-                        ORDER BY data_regis DESC"; // Ordenar pela data mais recente
+                        ORDER BY data_regis DESC";
 
                 $resultado = mysqli_query($conexao, $sql);
 

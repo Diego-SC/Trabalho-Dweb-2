@@ -3,7 +3,7 @@
     max-width: 1200px;
     margin: 30px auto;
     padding: 0 20px;
-    height: 70vh;
+    min-height: min-content;
 }
 
 /* -------------------- Movie Header Section -------------------- */

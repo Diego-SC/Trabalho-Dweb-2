@@ -22,7 +22,7 @@
 <body>
     <?php require_once 'cabecalho.php' ?>
     
-    <div class="container">
+    <div class="container shorter">
         <?php echo cardPerfil($conexao, $usuario, "perfil") ?>
 
         <main class="main-content">
@@ -30,7 +30,7 @@
                 <h2>FILMES FAVORITOS</h2>
                 <?php
                     $sql = "SELECT * FROM Filme_Favorito 
-                            WHERE id_usuario = '$id_usuario' LIMIT 4";
+                            WHERE id_usuario = '$id_usuario' LIMIT 5";
 
                     $resultado = mysqli_query($conexao, $sql);
 
@@ -62,7 +62,7 @@
                     $sql = "SELECT * FROM Filme_Registro 
                             WHERE id_usuario = '$id_usuario' 
                             ORDER BY data_regis DESC 
-                            LIMIT 4";
+                            LIMIT 5";
 
                     $resultado = mysqli_query($conexao, $sql);
 

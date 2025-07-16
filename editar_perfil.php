@@ -6,18 +6,9 @@
     $email_usuario = $usuario['email'];
     $foto_atual = $usuario['foto_perfil'];
 
-    // Obter filmes favoritos do usuário
-    $filmes_favoritos_ids = getFilmesFavoritos($conexao, $id_usuario); // Função a ser implementada em util.php
-    $filmes_favoritos_data = [];
-    foreach ($filmes_favoritos_ids as $tmdb_id) {
-        $filmes_favoritos_data[] = getFilme($conexao, $tmdb_id); // Assume getFilme retrieves movie details
-    }
-
-    // URLs das fotos de perfil de exemplo
+    // URLs das fotos de perfil
     $fotos_de_perfil = glob('imagens/perfil*.jpg');
-    $messages = []; // Array to store success or error messages
-
-    
+    $mensagens = [];
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $senha_atual = $_POST['senha_atual'] ?? '';
@@ -39,29 +30,29 @@
             $updates[] = "email = '$email_novo'";
         }
 
-        if ($mudancas && empty($messages)) {
+        if ($mudancas && empty($mensagens)) {
             $sql = "UPDATE Usuario SET " . implode(", ", $updates) . " WHERE login = '$id_usuario'";
             
             if (mysqli_query($conexao, $sql)) {
-                $messages[] = ['type' => 'success', 'text' => 'Informações do perfil atualizadas com sucesso!'];
+                $mensagens[] = ['type' => 'success', 'text' => 'Informações do perfil atualizadas com sucesso!'];
                 
                 $email_usuario = $email_novo;
                 $nome_usuario = $nome_novo;
                 $_SESSION['nome_usuario'] = $nome_novo;
             } else {
-                $messages[] = ['type' => 'error', 'text' => 'Erro ao atualizar as informações do perfil: ' . mysqli_error($conexao)];
+                $mensagens[] = ['type' => 'error', 'text' => 'Erro ao atualizar as informações do perfil: ' . mysqli_error($conexao)];
             }
         }
 
         if (!empty($senha_atual) || !empty($nova_senha) || !empty($confirmar_nova_senha)) {
             if (!password_verify($senha_atual, $usuario['senha'])) {
-                $messages[] = ['type' => 'error', 'text' => 'A senha atual está incorreta.'];
+                $mensagens[] = ['type' => 'error', 'text' => 'A senha atual está incorreta.'];
             }
             elseif (empty($nova_senha)) {
-                $messages[] = ['type' => 'error', 'text' => 'A nova senha não pode ser vazia.'];
+                $mensagens[] = ['type' => 'error', 'text' => 'A nova senha não pode ser vazia.'];
             }
             elseif ($nova_senha !== $confirmar_nova_senha) {
-                $messages[] = ['type' => 'error', 'text' => 'A nova senha e a confirmação de senha não coincidem.'];
+                $mensagens[] = ['type' => 'error', 'text' => 'A nova senha e a confirmação de senha não coincidem.'];
             }
             else {
                 $hashed_nova_senha = password_hash($nova_senha, PASSWORD_DEFAULT);
@@ -69,39 +60,36 @@
                 $sql = "UPDATE Usuario SET senha = '$hashed_nova_senha_sql' WHERE login = '$id_usuario'";
 
                 if (mysqli_query($conexao, $sql)) {
-                    $messages[] = ['type' => 'success', 'text' => 'Senha alterada com sucesso!'];
-                    // $_SESSION['usuario']['senha'] = $nova_senha;
+                    $mensagens[] = ['type' => 'success', 'text' => 'Senha alterada com sucesso!'];
                 }
                 else {
-                    $messages[] = ['type' => 'error', 'text' => 'Erro ao alterar a senha: ' . mysqli_error($conexao)];
+                    $mensagens[] = ['type' => 'error', 'text' => 'Erro ao alterar a senha: ' . mysqli_error($conexao)];
                 }
             }
         }
 
-        // --- Handle Profile Avatar Change ---
-        if (isset($_POST['profile_avatar'])) {
-            $selected_avatar = mysqli_real_escape_string($conexao, $_POST['profile_avatar']);
+        // Troca de Avatar
+        if (isset($_POST['foto_de_perfil'])) {
+            $foto_selecionada = mysqli_real_escape_string($conexao, $_POST['foto_de_perfil']);
 
-            // Validate if the selected avatar is one of the allowed options
-            if (in_array($selected_avatar, $fotos_de_perfil)) {
-                $update_avatar_sql = "UPDATE Usuario SET foto_perfil = '$selected_avatar' WHERE login = '$id_usuario'";
+            if (in_array($foto_selecionada, $fotos_de_perfil)) {
+                $sql_foto = "UPDATE Usuario SET foto_perfil = '$foto_selecionada' WHERE login = '$id_usuario'";
                 if (mysqli_query($conexao, $update_avatar_sql)) {
-                    $messages[] = ['type' => 'success', 'text' => 'Foto de perfil atualizada com sucesso!'];
-                    // Update $usuario in session to reflect new avatar immediately
-                    $_SESSION['usuario']['foto_perfil'] = $selected_avatar;
-                    $foto_atual = $selected_avatar; // Update local variable for display
+                    $mensagens[] = ['type' => 'success', 'text' => 'Foto de perfil atualizada com sucesso!'];
+                    $usuario['foto_perfil'] = $foto_selecionada;
+                    $foto_atual = $foto_selecionada;
                 }
                 else {
-                    $messages[] = ['type' => 'error', 'text' => 'Erro ao atualizar a foto de perfil: ' . mysqli_error($conexao)];
+                    $mensagens[] = ['type' => 'error', 'text' => 'Erro ao atualizar a foto de perfil: ' . mysqli_error($conexao)];
                 }
             }
             else {
-                $messages[] = ['type' => 'error', 'text' => 'Seleção de foto de perfil inválida.'];
+                $mensagens[] = ['type' => 'error', 'text' => 'Seleção de foto de perfil inválida.'];
             }
         }
         
-        if (empty($messages) && isset($_POST['save_changes'])) {
-             $messages[] = ['type' => 'success', 'text' => 'Informações do perfil salvas com sucesso!'];
+        if (empty($mensagens) && isset($_POST['save_changes'])) {
+             $mensagens[] = ['type' => 'success', 'text' => 'Informações do perfil salvas com sucesso!'];
         }
     }
 ?>
@@ -190,9 +178,9 @@
                     </div>
                 </div>
             </section>
-            <?php if (!empty($messages)): ?>
-                <div class="messages">
-                    <?php foreach ($messages as $message): ?>
+            <?php if (!empty($mensagens)): ?>
+                <div class="mensa$mensagens">
+                    <?php foreach ($mensagens as $message): ?>
                         <p class="<?php echo $message['type']; ?>"><?php echo $message['text']; ?></p>
                     <?php endforeach; ?>
                 </div>
@@ -204,7 +192,7 @@
                     <?php foreach ($fotos_de_perfil as $index => $foto): ?>
                         <div class="avatar-option <?php echo ($foto == $foto_atual ? 'current' : ''); ?>">
                             <img src="<?php echo htmlspecialchars($foto); ?>" alt="Avatar <?php echo $index; ?>">
-                            <input type="radio" name="profile_avatar" value="<?php echo htmlspecialchars($foto); ?>" <?php echo ($foto == $foto_atual ? 'checked' : ''); ?>>
+                            <input type="radio" name="foto_de_perfil" value="<?php echo htmlspecialchars($foto); ?>" <?php echo ($foto == $foto_atual ? 'checked' : ''); ?>>
                         </div>
                     <?php endforeach; ?>
                 </div>

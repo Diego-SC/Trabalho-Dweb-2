@@ -11,6 +11,11 @@ function debug_to_console($data): void {
     echo "<script>console.log('DEBUG: " . $output . "' );</script>";
 }
 
+/*
+    Converte mês para abreviação
+    Parâmetros: (numero)
+    Retorno: Mês abreviado (string)
+*/
 function numeroParaMesAbreviado($numero) {
     $meses = [
         1 => 'Jan',
@@ -269,7 +274,7 @@ function getFilmesPopulares($page=1): array {
 /*
     Pegar a quantidade total de filmes do usuário
     Parâmetros: ($conexao, id_usuario)
-    Retorno: Qunatitade total de filmes do usuário (int) 
+    Retorno: Quantidade total de filmes do usuário (int) 
 */
 function getUsuarioTotalFilmes($conexao, string $id_usuario): int {
     $id_usuario = mysqli_real_escape_string($conexao, $id_usuario);
@@ -288,7 +293,7 @@ function getUsuarioTotalFilmes($conexao, string $id_usuario): int {
 /*
     Pegar a quantidade total de filmes do usuário este ano
     Parâmetros: ($conexao, id_usuario)
-    Retorno: Qunatitade total de filmes do usuário este ano (int) 
+    Retorno: Quantidade total de filmes do usuário este ano (int) 
 */
 function getUsuarioFilmesEsseAno($conexao, string $id_usuario): int {
     $id_usuario = mysqli_real_escape_string($conexao, $id_usuario);
@@ -384,7 +389,12 @@ function getCurtida(bool $flag): string {
     return $curtida;
 }
 
-function naWatchlist($conexao, $id_usuario, $id_filme) {
+/*
+    Retorna se filme está na Watchlist
+    Parâmetros: (conexao, id_usuario, id_filmes)
+    Retorno: true ou false
+*/
+function naWatchlist($conexao, $id_usuario, $id_filme): bool {
     $sql = "SELECT * FROM Watchlist WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
     $resultado = mysqli_query($conexao, $sql);
 
@@ -394,6 +404,9 @@ function naWatchlist($conexao, $id_usuario, $id_filme) {
     return false;
 }
 
+/*
+    Toggle para o botão de curtir filme
+*/
 function toggleCurtido($conexao, $id_usuario, $id_filme, &$assistido, &$curtido): void {
     $novo_curtido = $curtido ? 0 : 1; // Toggle
 
@@ -412,6 +425,9 @@ function toggleCurtido($conexao, $id_usuario, $id_filme, &$assistido, &$curtido)
     exit();
 }
 
+/*
+    Toggle para o botão de adicionar filme na Watchlist
+*/
 function toggleWatchlist($conexao, $id_usuario, $id_filme, &$assistido, &$na_watchlist): void {
     if ($assistido) {
         return;
@@ -434,7 +450,7 @@ function toggleWatchlist($conexao, $id_usuario, $id_filme, &$assistido, &$na_wat
 /*
     Pegar a quantidade total de filmes do usuário na watchlist
     Parâmetros: ($conexao, id_usuario)
-    Retorno: Qunatitade total de filmes do usuário na watchlist (int) 
+    Retorno: Quantidade total de filmes do usuário na watchlist (int) 
 */
 function getUsuarioTotalWatchlist($conexao, string $id_usuario): int {
     $id_usuario = mysqli_real_escape_string($conexao, $id_usuario);
@@ -450,7 +466,11 @@ function getUsuarioTotalWatchlist($conexao, string $id_usuario): int {
     return 0; // Return 0 if there's an error or no results
 }
 
-function deletarRegistro($conexao, $id_usuario, $id_filme) {
+/*
+    Deletar um registro
+    Parâmetros: ($conexao, id_usuario, id_filme)
+*/
+function deletarRegistro($conexao, $id_usuario, $id_filme): void {
     $sql_delete = "DELETE FROM Filme_Registro WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
     
     if (mysqli_query($conexao, $sql_delete)) {
@@ -465,14 +485,19 @@ function deletarRegistro($conexao, $id_usuario, $id_filme) {
     }
 }
 
-function cardPerfil($conexao, $dados, string $pagina) {
-    $id_usuario = $dados['login'];
-    $nome_usuario = $dados['nome'];
+/*
+    Gerar HTML do card do perfil do usuário
+    Parâmetros: (conexao, usuario, pagina)
+    Retorno: HTML do card do perfil (string)
+*/
+function cardPerfil($conexao, $usuario, string $pagina): string {
+    $id_usuario = $usuario['login'];
+    $nome_usuario = $usuario['nome'];
     $html = '
     <aside class="sidebar">
         <div class="profile-card">
             <div class="profile-header-section">
-                <img src="'. $dados['foto_perfil'] .'" alt="Foto de perfil de'. $nome_usuario . '?>" class="profile-avatar">
+                <img src="'. $usuario['foto_perfil'] .'" alt="Foto de perfil de'. $nome_usuario . '?>" class="profile-avatar">
                 <div class="profile-info">
                     <h1 class="profile-name">'. $nome_usuario . '</h1>
                     <a href="editar_perfil.php"><button class="edit-profile-button">EDITAR PERFIL</button></a>

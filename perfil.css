@@ -49,8 +49,10 @@ button {
 
 @media (min-width: 992px) {
     .container {
-        grid-template-columns: 7frr; /* Main content e sidebar na desktop */
         gap: 40px;
+    }
+    .container.shorter {
+        grid-template-columns:  7fr 3fr;
     }
 }
 
@@ -264,7 +266,7 @@ h2 .all-link {
 
 .movie-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 15px;
 }
 

@@ -1,5 +1,4 @@
 <?php
-    // rodape.php
 ?>
 
 <footer class="site-footer">

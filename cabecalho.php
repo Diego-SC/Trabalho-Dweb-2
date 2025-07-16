@@ -1,5 +1,4 @@
 <?php
-    //cabecalho.php
     require_once 'sessao.php';
 ?>
 <header class="main-header">

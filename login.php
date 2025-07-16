@@ -13,7 +13,7 @@
 			$erros[] = "<li>O campo login/senha precisa ser preenchido.</li>";
 		}
 		else {
-			// Verifica se o usuário existe
+			// Verificação se o usuário existe
 			$sql = "SELECT * FROM Usuario WHERE login = '$login'";
 			$resultado = mysqli_query($conexao, $sql);
 			

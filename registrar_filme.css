@@ -102,7 +102,7 @@ textarea {
 }
 
 textarea:focus {
-    border-color: var(--red-brand); /* Highlight color on focus */
+    border-color: var(--accent-color);
 }
 
 .rating-and-like {
@@ -135,7 +135,7 @@ textarea:focus {
 }
 
 .rating-select:focus {
-    border-color: var(--red-brand);
+    border-color: var(--accent-color);
 }
 
 .rating-btns {
@@ -156,7 +156,7 @@ textarea:focus {
 
 .like-button.active,
 .like-button:hover {
-    color: var(--red-brand); /* Red for liked heart, using red-brand variable */
+    color: var(--accent-color); /* Red for liked heart, using red-brand variable */
 }
 
 .favorito-button.active,
@@ -205,7 +205,7 @@ textarea:focus {
 }
 
 .error-message {
-    color: var(--red-brand);
+    color: var(--color);
     background-color: #4d2f31; /* Lighter dark red */
     border: 1px solid #6e4042;
     padding: 10px;

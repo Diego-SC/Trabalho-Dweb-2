@@ -46,78 +46,78 @@
             $review_post = filter_var($_POST['review'], FILTER_SANITIZE_SPECIAL_CHARS);
         
             $nota_post = isset($_POST['nota']) ? (float)filter_var($_POST['nota'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : 0;
-            $nota_post = $nota_post * 2;
+            $nota_post = (int) ($nota_post * 2);
 
-            $curtido_post = $_POST['curtido'];
-            $favorito_post = $_POST['favorito'];
-            
-            // Arrumar
-            if ($curtido_post == 0 && empty($review_post) && $nota_post == 0) {
+            $curtido_post = (int) $_POST['curtido'];
+            $favorito_post = (int) $_POST['favorito'];
+            $sql_fav_cnt = "SELECT COUNT(*) as total FROM Filme_Favorito WHERE id_usuario = '$id_usuario'";
+            $res = mysqli_query($conexao,  $sql_fav_cnt);
+            $fav_cnt = (int) mysqli_fetch_assoc($res)['total'];
+
+            $bloq_insert = ($favorito_post === 1 && $fav_cnt >= 5 && $nota_post == 0 && empty($review_post) && $curtido_post == 0);
+            if ($bloq_insert) {
+                echo "<p class='error-message'>Limite de 5 filmes favoritos atingido. Caso deseje adicionar esse filme como favorito é necessário remover um filme dos favoritos.</p>";
+            }
+            else {
+                if ($assistido) {
+                    $sql_update = "UPDATE Filme_Registro SET review = '$review_post', nota = '$nota_post', curtido = '$curtido_post' WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+                    if (mysqli_query($conexao, $sql_update)) {
+                        echo "<p class='success-message'>Registro atualizado com sucesso!</p>";
+                    
+                        // Deletar da Watchlist
+                        if (naWatchlist($conexao, $id_usuario, $id_filme)) {
+                            $sql_del = "DELETE FROM Watchlist WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+                            mysqli_query($conexao, $sql_del);
+                        }
+                        $review = $review_post;
+                        $nota = $nota_post;
+                        $curtido = $curtido_post;
+                    }
+                    else {
+                        echo "<p class='error-message'>Erro ao atualizar registro: " . mysqli_error($conexao) . "</p>";
+                    }
+                }
+                else {
+                    $sql_insert = "INSERT INTO Filme_Registro (id_usuario, id_filme, review, nota, curtido, data_regis) VALUES ('$id_usuario', '$id_filme', '$review_post', '$nota_post', '$curtido_post', NOW())";
+                    debug_to_console($sql_insert);
+                    if (mysqli_query($conexao, $sql_insert)) {
+                        echo "<p class='success-message'>Registro adicionado com sucesso!</p>";
+                        
+                        // Deletar da Watchlist
+                        if (naWatchlist($conexao, $id_usuario, $id_filme)) {
+                            $sql_del = "DELETE FROM Watchlist WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+                            mysqli_query($conexao, $sql_del);
+                        }
+                        
+                        $review = $review_post;
+                        $nota = $nota_post;
+                        $curtido = $curtido_post;
+                        $assistido = true;
+                    }
+                    else {
+                        echo "<p class='error-message'>Erro ao adicionar registro: " . mysqli_error($conexao) . "</p>";
+                    }
+                }
+
+                if ($favorito_post) {
+                    if ($fav_cnt >= 5 || $favorito == $favorito_post) {
+                        echo "<p class='error-message'>Limite de 5 filmes favoritos atingido. Caso deseje adicionar esse filme como favorito é necessário remover um filme dos favoritos.</p>";
+                    }
+                    else {
+                        $sql_insert = "INSERT INTO Filme_Favorito (id_usuario, id_filme) VALUES ('$id_usuario', '$id_filme')";
+                        if (mysqli_query($conexao, $sql_insert)) {
+                            $favorito = $favorito_post;
+                            echo "<p class='success-message'>Filme favorito adicionado com sucesso!</p>";
+                        }
+                    }
+                }
+                else {
+                    $sql_del = "DELETE FROM Filme_Favorito WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
+                    mysqli_query($conexao, $sql_del);
+                    echo "<p class='success-message'>Filme favorito removido com sucesso!</p>";
+                }
                 header("Location: filme.php?id=$id_filme");
             }
-            if ($favorito_post) {
-                $sql_cnt = "SELECT COUNT(*) as total FROM Filme_Favorito WHERE id_usuario = '$id_usuario'";
-                $res = mysqli_query($conexao,  $sql_cnt);
-                $cnt = mysqli_fetch_assoc($res)['total'];
-                if ($cnt >= 4) {
-                    echo "<p class='error-message'>Limite de 4 filmes favoritos atingido. Caso deseje adicionar esse filme como favorito é necessário remover um filme dos favoritos.</p>";
-                }
-                else {
-                    $sql_insert = "INSERT INTO Filme_Favorito (id_usuario, id_filme) VALUES ('$id_usuario', '$id_filme')";
-                    if (mysqli_query($conexao, $sql_insert)) {
-                        $favorito = $favorito_post;
-                        echo "<p class='success-message'>Filme favorito adicionado com sucesso!</p>";
-                    }
-                }
-            }
-            else {
-                $sql_del = "DELETE FROM Filme_Favorito WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
-                mysqli_query($conexao, $sql_del);
-                echo "<p class='success-message'>Filme favorito removido com sucesso!</p>";
-            }
-
-            if ($assistido) {
-                $sql_update = "UPDATE Filme_Registro SET review = '$review_post', nota = '$nota_post', curtido = '$curtido_post', data_regis = NOW() WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
-                if (mysqli_query($conexao, $sql_update)) {
-                    echo "<p class='success-message'>Registro atualizado com sucesso!</p>";
-                
-                    // Deletar da Watchlist
-                    if (naWatchlist($conexao, $id_usuario, $id_filme)) {
-                        $sql_del = "DELETE FROM Watchlist WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
-                        mysqli_query($conexao, $sql_del);
-                    }
-                    $review = $review_post;
-                    $nota = $nota_post;
-                    $curtido = $curtido_post;
-                    header("Location: filme.php?id=$id_filme");
-                }
-                else {
-                    echo "<p class='error-message'>Erro ao atualizar registro: " . mysqli_error($conexao) . "</p>";
-                }
-            }
-            else {
-                $sql_insert = "INSERT INTO Filme_Registro (id_usuario, id_filme, review, nota, curtido, data_regis) VALUES ('$id_usuario', '$id_filme', '$review_post', '$nota_post', '$curtido_post', NOW())";
-                if (mysqli_query($conexao, $sql_insert)) {
-                    echo "<p class='success-message'>Registro adicionado com sucesso!</p>";
-                    
-                    // Deletar da Watchlist
-                    if (naWatchlist($conexao, $id_usuario, $id_filme)) {
-                        $sql_del = "DELETE FROM Watchlist WHERE id_usuario = '$id_usuario' AND id_filme = '$id_filme'";
-                        mysqli_query($conexao, $sql_del);
-                    }
-
-                    $review = $review_post;
-                    $nota = $nota_post;
-                    $curtido = $curtido_post;
-                    $assistido = true;
-                    header("Location: filme.php?id=$id_filme");
-                }
-                else {
-                    echo "<p class='error-message'>Erro ao adicionar registro: " . mysqli_error($conexao) . "</p>";
-                }
-            }
-
-            
         }
     }
     mysqli_close($conexao);
@@ -203,6 +203,7 @@
     <?php require_once 'rodape.php'; ?>
 
     <script>
+        // Funcionalidade visual dos botões
         document.addEventListener('DOMContentLoaded', function() {
             const likeButton = document.getElementById('likeToggle');
             const curtidoInput = document.getElementById('curtidoInput');

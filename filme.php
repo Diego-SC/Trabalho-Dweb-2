@@ -36,7 +36,7 @@
     // Watchlist
     $na_watchlist = naWatchlist($conexao, $id_usuario, $id_filme);
 
-    $stats = getEstatisticasFilme($conexao, $id_filme);
+    $estat = getEstatisticasFilme($conexao, $id_filme);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['toggle_curtido'])) {
@@ -72,9 +72,9 @@
             <div class="movie-poster-large">
                 <?php echo "<img src='https://image.tmdb.org/t/p/w500$poster' alt='$titulo Poster'>" ?>
                 <div class="stats-overlay">
-                    <span class="stat-count"> <?php echo $stats['registros']?> <i class="fas fa-eye"></i></span>
-                    <span class="stat-count"> <?php echo $stats['curtidas']?> <i class="fas fa-heart"></i></span>
-                    <span class="stat-count"> <?php echo $stats['watchlist']?> <i class="fas fa-list"></i></span>
+                    <span class="stat-count"> <?php echo $estat['registros']?> <i class="fas fa-eye"></i></span>
+                    <span class="stat-count"> <?php echo $estat['curtidas']?> <i class="fas fa-heart"></i></span>
+                    <span class="stat-count"> <?php echo $estat['watchlist']?> <i class="fas fa-list"></i></span>
                 </div>
             </div>
             <div class="movie-details">
@@ -132,8 +132,12 @@
                         <img src='$foto_perfil' alt='Avatar do $nome_usuario' class='reviewer-avatar'>
                         <div class='review-content-film'>
                             <p class='reviewer-info'>Review por <span class='reviewer-name'>$nome_usuario</span>
-                            em $data_formatada</p>
-                            <span class='review-stars'>".getEstrelas($nota) . getCurtida($curtido)."</span>
+                            em $data_formatada</p>";
+
+                if ($nota !=0 || $curtido)
+                    echo "<span class='review-stars'>".getEstrelas($nota) . getCurtida($curtido)."</span>";
+                            
+                echo "
                             <p class='review-text-film'>$review</p>
                         </div>
                     </div>
