@@ -38,5 +38,5 @@ Projeto desenvolvido para a disciplina **Desenvolvimento Web II (CEFET-MG Campus
 ## ⚙️ Instalação  
 1. Clone o repositório:  
    ```bash  
-   [git clone https://github.com/seu-usuario/cinelog.git  ](https://github.com/Diego-SC/Trabalho-Dweb-2)
+   git clone https://github.com/Diego-SC/Trabalho-Dweb-2
    ```
