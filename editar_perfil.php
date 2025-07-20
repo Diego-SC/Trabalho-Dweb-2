@@ -74,7 +74,7 @@
 
             if (in_array($foto_selecionada, $fotos_de_perfil)) {
                 $sql_foto = "UPDATE Usuario SET foto_perfil = '$foto_selecionada' WHERE login = '$id_usuario'";
-                if (mysqli_query($conexao, $update_avatar_sql)) {
+                if (mysqli_query($conexao, $sql_foto)) {
                     $mensagens[] = ['type' => 'success', 'text' => 'Foto de perfil atualizada com sucesso!'];
                     $usuario['foto_perfil'] = $foto_selecionada;
                     $foto_atual = $foto_selecionada;
