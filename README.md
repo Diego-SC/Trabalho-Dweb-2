@@ -1,32 +1,42 @@
-# Trabalho Dweb 2
-Um projeto para a matéria de Desenvolvimento Web 2
+# 🎬 TelaCrítica  
 
-Paleta
-- Amarelo: var(--star-color)
-- Vermelho: #DD1C1A
-- Azul: #086788
+## 📌 Descrição  
+Projeto desenvolvido para a disciplina **Desenvolvimento Web II (CEFET-MG Campus Leopoldina)**, simulando uma plataforma de catalogação de filmes inspirada no *Letterboxd*, utilizando **PHP para backend** e integração com a **API TMDB** (The Movie Database).  
 
-Cabeçalho
-- Busca
-- Atalhos (escolher quais)
+## 👨‍💻 Equipe  
+- Ian Ribeiro  
+- Diego Camillo  
+- Flávia Ferreira  
+- Fabiana Ferreira  
 
-Profile
-- Total de filmes
-- Filmes esse ano
-- Filmes favoritos
-- Filmes recentes
-- *Whatlist
-- Rating (baixa prioridade)
-- *Recent Reviews
-- *Filmes vistos (Página "Films")
-- *Reviews (Página "Reviews")
-- *Likes (Página "Likes")
+---
 
-Home (Baixa Prioridade)
-- Filmes com maior avaliação
-- Filmes recentes
-- Filmes de cada categoria
-- Reviews
+## 🚀 Funcionalidades  
+- [x] Busca de filmes via **API TMDB**  
+- [x] Cadastro e login de usuários  
+- [x] Listagem de filmes populares/em cartaz  
+- [x] Avaliação e comentários em filmes  
+- [x] Perfil de usuário com histórico  
 
-Editar Perfil/Settings
-- Edições de dados
+---
+
+## 🛠️ Tecnologias  
+| Backend       | Frontend       | API           | Banco de Dados |  
+|---------------|----------------|---------------|----------------|  
+| PHP           | HTML/CSS       | TMDB          | MySQL          |  
+
+---
+
+## 📦 Pré-requisitos  
+- Servidor web (ex: XAMPP, WAMP, ou Apache configurado)  
+- PHP 7.4+ (com extensão `curl` habilitada para a API)  
+- Banco de dados MySQL  
+- Chave de API TMDB ([como obter](https://www.themoviedb.org/settings/api))  
+
+---
+
+## ⚙️ Instalação  
+1. Clone o repositório:  
+   ```bash  
+   [git clone https://github.com/seu-usuario/cinelog.git  ](https://github.com/Diego-SC/Trabalho-Dweb-2)
+   ```
